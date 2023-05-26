@@ -5,6 +5,7 @@ schema/*
 # ignore everything in "wordpress" directory except the "wp-content" directory.
 wordpress/*
 wordpress/wp-content/languages/*
+wordpress/wp-content/upload/*
 !wp-content/
 
 # ignore everything in the "wp-content" directory, except:
