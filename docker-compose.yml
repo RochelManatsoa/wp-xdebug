@@ -1,18 +1,20 @@
 version: '3.1'
 
 services:
-    wordpress:
-        image: wordpress
+    webserver:
+        build: .
         restart: always
         ports: 
             - 8080:80
         environment:
+            PHP_EXTENSION_XDEBUG: 1
             WORDPRESS_DB_HOST: db 
             WORDPRESS_DB_USER: nirina
             WORDPRESS_DB_PASSWORD: moissons
             WORDPRESS_DB_NAME: wordpress
         volumes:
             - ./wordpress:/var/www/html
+            - ./php.ini:/usr/local/etc/php/php.ini
 
     db: 
         image: mysql:5.7
@@ -31,7 +33,3 @@ services:
         restart: always
         ports:
             - 8081:80
-
-volumes:
-    wordpress:
-    db:
