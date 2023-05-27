@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather&family=PT+Sans&family=Poppins&family=Rubik&display=swap');
+body {
+	font-family:'Rubik'!important;
+}
+
+h1, h2, h3 {
+	font-family: 'Merriweather'!important;
+}
+
+button, input {
+	font-family: 'Rubik'!important;
+}
+
+.social-navigation a{
+	background-color: rgb(46,153,226)!important;
+}
+
+.has-background, .navigation-top{
+	background-color: #EE934A!important;
+}
+#site-navigation{
+	font-family: 'Poppins'!important;
+	font-size:1.2em!important;
+}
+
+.site-info{
+	display: none;
+}
+
+.textwidget-slide{
+	display:none!important;
+}
+@media only screen and (max-width: 600px) {
+	.navbar-brand{
+		font-size:30px!important;
+		line-height: 30px!important;
+	}
+	.page-title{
+		font-size:18px!important;
+	}
+	.textwidget-slide{
+		display:block!important;
+		margin-top:25px!important;
+	}
+	#mysticky-nav.wrapfixed, #mysticky-nav.wrapfixed .myfixed{
+		background:#fff!important;
+	}
+	#mysticky-nav.wrapfixed{
+		box-shadow:0px 1px 4px silver;
+	}
+}
+#text-7{
+	z-index:999!important;
+}
+#text-7 img{
+	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+	width:100%;
+}
+#text-7 a, #text-7 a:hover{
+	text-decoration:none!important;
+}
+.entry-content a img, .comment-content a img, .widget a img {
+     -webkit-box-shadow: none!important; 
+     box-shadow: none!important; 
+}
