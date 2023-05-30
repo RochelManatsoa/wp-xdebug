@@ -6,6 +6,8 @@ schema/*
 wordpress/*
 wordpress/wp-content/languages/*
 wordpress/wp-content/uploads/*
+wordpress/wp-content/fonts/*
+wordpress/wp-content/themes/servicer/*
 !wp-content/
 
 # ignore everything in the "wp-content" directory, except:
