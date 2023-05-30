@@ -2,7 +2,7 @@
 /*
 Plugin Name: commentjoindre.fr
 Description: Plugin qui affiche deux images flottante sur la version mobile du site (requiert les plugins : myStickyMenu, ACF). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 3.5.7
+Version: 3.5.8
 Author: Nirina Rochel
 Author Uri: https://rochel-nirina.welovedevs.com/
 */
@@ -42,13 +42,13 @@ function popup_after_title_in_mobile( $content ) {
             $custom_content = '';
 
 
-            if (metadata_exists('post', get_the_ID(), 'second_featured_image') && get_post_meta(get_the_ID(), 'second_featured_image', true) !== "0") {
+            if (metadata_exists('post', get_the_ID(), 'second_featured_image') && get_post_meta(get_the_ID(), 'second_featured_image', true) !== "") {
                 $second_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'second_featured_image', true), 'full');
             } else {
                 $second_featured_image = '<img loading="lazy" width="425" height="240" src="'.plugins_url('img/VisuelCTblog.jpeg', __FILE__).'" alt="appeler service" class="wp-image-68" >';
             }
     
-            if (metadata_exists('post', get_the_ID(), 'third_featured_image') && get_post_meta(get_the_ID(), 'third_featured_image', true) !== "0") {
+            if (metadata_exists('post', get_the_ID(), 'third_featured_image') && get_post_meta(get_the_ID(), 'third_featured_image', true) !== "") {
                 $third_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'third_featured_image', true), 'full');
             } else {
                 $third_featured_image = '<img class="alignnone size-full ls-is-cached lazyloaded" src="'.plugins_url('img/cartouche.png', __FILE__).'" alt="cartouche" width="425" height="112"/>';
