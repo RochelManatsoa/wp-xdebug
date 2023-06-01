@@ -1,0 +1,21 @@
+.center-block {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+ }
+.entry-content a img, .comment-content a img, .widget a img {
+    -webkit-box-shadow: 0 0 0 0px #fff!important;
+    box-shadow: 0 0 0 0px #fff!important;
+}
+@media screen and (min-width: 48em){
+   .has-sidebar #primary {
+       float: left!important;
+       width: 58%!important;
+   }
+}
+@media screen and (min-width: 48em){
+   .error404 #primary {
+       float: left!important;
+       width: 58%!important;
+   }
+}
