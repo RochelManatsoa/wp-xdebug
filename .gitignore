@@ -8,6 +8,7 @@ wordpress/wp-content/languages/*
 wordpress/wp-content/uploads/*
 wordpress/wp-content/fonts/*
 wordpress/wp-content/themes/servicer/*
+wordpress/wp-content/plugins/woocommerce/*
 !wp-content/
 
 # ignore everything in the "wp-content" directory, except:
