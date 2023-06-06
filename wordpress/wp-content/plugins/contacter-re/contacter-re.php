@@ -2,7 +2,7 @@
 /*
 Plugin Name: contact-telephone.re
 Description: Plugin qui affiche deux images flottante sur la version mobile du site (requiert les plugins : myStickyMenu, ACF). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 2.0.2
+Version: 2.0.3
 Author: Nirina Rochel
 Author URI: https://welovedevs.com/app/fr/developer/rochel-la-ou-se-trouve-une-volonte-il-existe-un-chemin
 */
@@ -69,26 +69,26 @@ function popup_after_title_in_mobile( $content ) {
 
             $custom_content = '';
 
-            if (metadata_exists('post', get_the_ID(), 'second_featured_image') && get_post_meta(get_the_ID(), 'second_featured_image', true) !== "0") {
+            if (metadata_exists('post', get_the_ID(), 'second_featured_image') && get_post_meta(get_the_ID(), 'second_featured_image', true) === "") {
                 $second_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'second_featured_image', true), 'full');
             } else {
                 $second_featured_image = '<img width="531" height="713" class="alignnone size-full ls-is-cached lazyloaded" src="'.plugins_url('img/VisuelCTblog.jpg', __FILE__).'" alt="call service"/>';
             }
 
-            if (metadata_exists('post', get_the_ID(), 'third_featured_image') && get_post_meta(get_the_ID(), 'third_featured_image', true) !== "0") {
+            if (metadata_exists('post', get_the_ID(), 'third_featured_image') && get_post_meta(get_the_ID(), 'third_featured_image', true) === "") {
                 $third_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'third_featured_image', true), 'full');
             } else {
                 $third_featured_image = '<img class="alignnone size-full ls-is-cached lazyloaded" src="'.plugins_url('img/cartouche.png', __FILE__).'" alt="cartouche" width="350" height="96"/>';
             }
 
 
-            if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) !== "") {
+            if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) === "") {
                 $number_click_to_call = get_post_meta(get_the_ID(), 'number_click_to_call', true);
             } else {
                 $number_click_to_call = SITE_NUMBER;
             }
 
-            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) !== "0") {
+            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) === "") {
                 $activer_image_mobile_en_haut = get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true);
             }else{
                 $activer_image_mobile_en_haut = "0";
