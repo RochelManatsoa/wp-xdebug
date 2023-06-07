@@ -122,11 +122,11 @@ function popup_after_title_in_mobile($content)
                         $backlinks .= ' | <a href="https://garedefrance.fr" title="Annuaire des GARES SNCF en France" target=_blank>Gare de France</a>';
                         $backlinks .= ' | <a href="https://garebelgique.be" title="Annuaire des GARES en Belgique" target=_blank>Gare de Belgique</a>';
                     $backlinks .= '</div>';
-                    $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="96"/>';
+                    $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="47"/>';
                 }
                 if ($cd->cat_name == 'gare-sncf') {
                     $second_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/sncf.jpg', __FILE__).'" alt="call service" width="275" height="277" />';
-                    $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="96"/>';
+                    $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="47"/>';
                 }
             }
 
