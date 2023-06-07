@@ -1,0 +1,210 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost&family=PT+Sans&family=Merriweather:wght@700&display=swap');
+a:hover {
+    text-decoration: none!important;
+}
+body {
+	font-family: 'PT Sans'!important;
+}
+
+h1, h2, h3 {
+	font-family: 'Jost'!important;
+}
+
+button, input {
+	font-family: 'Merriweather'!important;
+}
+
+.site-info{
+	display: none;
+}
+.textwidget-slide{
+	display:none!important;
+}
+@media only screen and (max-width: 600px) {
+	.navbar-brand{
+		font-size:30px!important;
+		line-height: 30px!important;
+	}
+	.page-title{
+		font-size:18px!important;
+	}
+	.textwidget-slide{
+		display:block!important;
+		margin-top:25px!important;
+	}
+	#mysticky-nav.wrapfixed, #mysticky-nav.wrapfixed .myfixed{
+		background:#fff!important;
+	}
+	#mysticky-nav.wrapfixed{
+		box-shadow:0px 1px 4px silver;
+	}
+}
+
+.TabsForm section {
+	padding: 20px 0 0;
+	border-top: 1px solid #8BC34A;
+	margin-top: 1px;
+  }
+  
+  .TabsForm input.tabsTitle {
+	display: none;
+  }
+  
+  .TabsForm label.tabsT {
+		display: table-cell;
+	  margin: 0 0;
+	  padding: 10px 5px;
+	  font-weight: 600;
+	  text-align: center;
+	  color: #000000;
+	  border: 1px solid transparent;
+	  width: 32%;
+	  vertical-align: middle;
+	  font-size: 14px;
+	  line-height: 100%;
+	  background: #fff;
+	  border-right: 1px solid #e2e2e2;
+	  border-left: 1px solid #cecece;
+  
+	  transition: all .3s ease;
+	  -webkit-transition: all .3s ease;
+  }
+  @media(max-width: 767px) {
+	  .TabsForm label.tabsT {
+		  width: 29%;
+	  }
+  }
+  .TabsForm label.tabsT.tabsT1 {
+	  border-left: none;
+  }
+  .TabsForm label.tabsT.tabsT3 {
+	  border-right: none;
+  }
+  
+  .TabsForm label.tabsT:hover {
+	  background: #8BC34A;
+		color: white;
+		cursor: pointer;
+  }
+  .search-widgets .widgets h2.widget-title {
+	  font-size: 30px;
+	  font-weight: 600;
+	  text-transform: uppercase;
+	  letter-spacing: 1px;
+	  /*color: #000;*/
+	  margin-bottom: 15px;
+  }
+  .right_block .search-widgets .widgets h2.widget-title {
+	  padding-top: 40px;
+  }
+  @media(max-width: 991px) {
+  }
+  @media(max-width: 767px) {
+	  .section_slider_flex {
+		  display: block;
+	  }
+	  .search-widgets .widgets h2.widget-title {
+		  display: none;
+	  }
+	  h1.entry-title:after {
+		  margin: 15px auto 28px;
+	  }
+	  h1.entry-title {
+		  font-size: 24px;
+		  text-align: center;
+		  margin-bottom: 25px;
+	  }
+  }
+  .search-widgets .widget_search {
+	  width: 360px;
+	  margin-top: 60px;
+  }
+  .left_block .site-title {
+	  text-align: left;
+	  margin-bottom: 35px;
+  }
+  @media(min-width: 768px) {
+	  .search-widgets {
+		  z-index: 1!important;
+		  width: 465px;
+		  height: 465px;
+		  background: rgba(255, 255, 255, 0.3);
+		  border: 19px solid #c1c1c1;
+		  padding: 20px;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  border-radius: 50%;
+		  margin: auto;
+	  }
+  }
+  @media(min-width: 1025px) {
+	  .search-widgets {
+		  width: 500px;
+		  height: 500px;
+	  }
+  }
+  .images_call {
+	  position: absolute;
+	  right: 10px;
+	  top: -30px;
+	  width: 180px;
+	  height: 180px;
+	  background: #ddd;
+	  border-radius: 50%;
+	  overflow: hidden;
+	  border: 4px solid #8BC34A;
+  }
+  @media(max-width: 1024px) {
+	  .images_call {
+		  right: 50px;
+		  width: 155px;
+		  height: 155px;
+	  }
+  }
+  @media(max-width: 767px) {
+	  .images_call { display: none; }
+	  .left_block .site-title {
+		  text-align: center;
+		  margin-bottom: 24px;
+		  display: none;
+	  }
+  }
+
+#colophon{
+	color: black;
+	text-align: center!important;
+	background-image: url('https://comment-joindre.fr/wp-content/uploads/2023/02/footer.webp');
+}
+#colophon .wrap::after{
+	content: '©2022 comment-joindre.fr - Tous droits réservés';
+}
+@media(min-width: 767px){
+
+	#text-2{
+		background-color:#FFF!important;
+		z-index:9999!important;
+	}
+}
+
+/* Fixes linked images */
+
+.entry-content a,
+.entry-content a img,
+.comment-content a img,
+.widget a img {
+	-webkit-box-shadow: 0 0 0 0px #fff !important;
+	box-shadow: 0 0 0 0px #fff !important;
+}
+.good-deal{
+	font-size: .8rem;
+}
+.good-deal a{
+	color: #3397E2!important;
+}
+.search-form .search-submit {
+    bottom: 3px;
+    padding: 0.5em 1em;
+    position: absolute;
+    right: 3px;
+}	
