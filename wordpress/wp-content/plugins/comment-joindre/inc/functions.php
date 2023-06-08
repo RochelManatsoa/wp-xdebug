@@ -20,8 +20,9 @@ function enqueue_style(){
 
 function yoast_remove_canonical_items( $canonical ) {
     if(is_single()){
-		$duplicate = substr(get_slug(), -2);
-        if(get_page_by_path(substr(get_slug(), 0, -2), OBJECT, 'post')){
+		$duplicate = substr(get_slug(), -3);
+		$duplicate = substr($duplicate, strpos($duplicate, "-"));
+        if(get_page_by_path(substr(get_slug(), 0, - strlen($duplicate)), OBJECT, 'post')){
             if ( 
 				$duplicate == "-2" || 
 				$duplicate == "-3" || 
@@ -61,7 +62,8 @@ function get_slug(){
 
 function yoast_edit_title_items( $title ) {
     if(is_single()){
-		$duplicate = substr(get_slug(), -2);
+		$duplicate = substr(get_slug(), -3);
+		$duplicate = substr($duplicate, strpos($duplicate, "-"));
 		if ( 
 			$duplicate == "-2" || 
 			$duplicate == "-3" || 
@@ -78,11 +80,11 @@ function yoast_edit_title_items( $title ) {
 			$duplicate == "-14" || 
 			$duplicate == "-15"
 		   ) {
-			return $title .= ' '.$duplicate;
+			return $title .=  ' (' . substr($duplicate, 1) . ')';
 		}
 	}
-	if(is_archive()){
-		$duplicate = substr(get_queried_object(), -2);
+	if(is_archive() && get_queried_object()){
+		$duplicate = substr(get_queried_object()->slug, -2);
 		if ( 
 			$duplicate == "-2" || 
 			$duplicate == "-3" || 
@@ -91,24 +93,62 @@ function yoast_edit_title_items( $title ) {
 			$duplicate == "-6" || 
 			$duplicate == "-7" || 
 			$duplicate == "-8" || 
-			$duplicate == "-9" || 
-			$duplicate == "-10" || 
-			$duplicate == "-11" || 
-			$duplicate == "-12" || 
-			$duplicate == "-13" || 
-			$duplicate == "-14" || 
-			$duplicate == "-15"
+			$duplicate == "-9" 
 		   ) {
-			return $title .= ' '.$duplicate;
+			return $title .=  ' (' . substr($duplicate, 1) . ')';
 		}
 	}
 
     return $title; 
 }
 
-// function add_footer_text_function() {
-//     echo '<div style="background: green; color: white; text-align: center;">©2022 comment-joindre.fr - Tous droits réservés</div>'; 
-// }
+
+/**
+ * Edit seo meta description
+ *
+ */
+
+ function yoast_edit_desc_items( $desc ) {
+    if(is_single()){
+		$duplicate = substr(get_slug(), -3);
+		$duplicate = substr($duplicate, strpos($duplicate, "-"));
+		if ( 
+			$duplicate == "-2" || 
+			$duplicate == "-3" || 
+			$duplicate == "-4" || 
+			$duplicate == "-5" || 
+			$duplicate == "-6" || 
+			$duplicate == "-7" || 
+			$duplicate == "-8" || 
+			$duplicate == "-9" || 
+			$duplicate == "-10" || 
+			$duplicate == "-11" || 
+			$duplicate == "-12" || 
+			$duplicate == "-13" || 
+			$duplicate == "-14" || 
+			$duplicate == "-15"
+		   ) {
+			return $desc .=  ' (' . substr($duplicate, 1) . ')';
+		}
+	}
+	if(is_archive() && get_queried_object()){
+		$duplicate = substr(get_queried_object()->slug, -2);
+		if ( 
+			$duplicate == "-2" || 
+			$duplicate == "-3" || 
+			$duplicate == "-4" || 
+			$duplicate == "-5" || 
+			$duplicate == "-6" || 
+			$duplicate == "-7" || 
+			$duplicate == "-8" || 
+			$duplicate == "-9" 
+		   ) {
+			return $desc .=  ' (' . substr($duplicate, 1) . ')';
+		}
+	}
+
+    return $desc; 
+}
 
 /**
  * New search result template
@@ -131,8 +171,8 @@ function search_template($template){
 }
 
 add_action('template_include', 'search_template', 99);
-// add_action( 'wp_footer', 'add_footer_text_function');
 add_action('init', 'register_script');
 add_action('wp_enqueue_scripts', 'enqueue_style');
 add_filter('wpseo_canonical', 'yoast_remove_canonical_items' , 47);
+add_filter('wpseo_metadesc', 'yoast_edit_desc_items', 59);
 add_filter('wpseo_title', 'yoast_edit_title_items' , 49);

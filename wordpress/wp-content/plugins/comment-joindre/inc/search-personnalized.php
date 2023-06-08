@@ -61,8 +61,8 @@ get_header(); ?>
                     Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:0890211805">
-                        <img width="768" height="372" src="https://comment-joindre.fr/wp-content/uploads/2022/12/0890211805-par-REMMEDIA-pour-COMMENT-JOINDRE.jpg" alt="Appeler le service" class="wp-image-68" >
+                    <a href="tel:<?= NRD_NUMBER ?>">
+                        <img width="768" height="372" src="<?= plugins_url('../img/default.jpg', __FILE__)?>" alt="Appeler le service" class="wp-image-68" >
                     </a>
                 </figure>
             <?php

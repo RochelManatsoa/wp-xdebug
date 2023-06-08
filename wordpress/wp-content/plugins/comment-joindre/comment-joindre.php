@@ -1,14 +1,17 @@
 <?php
 /*
-Plugin Name: ANNUAIRE TELEPHONIQUE FRANÇAIS ET DE MISE EN RELATION - AWM Océan Indien
+Plugin Name: Annuaire Téléphonique Français - comment-joindre.fr
 Description: Plugin qui ajoute deux images flottante sur la version mobile du site (requiert les plugins: myStickyMenu, Advanced Custom Fiels). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 3.7.0
+Version: 3.7.1
 Author: Nirina Rochel
+Author URI: https://welovedevs.com/app/fr/developer/rochel-la-ou-se-trouve-une-volonte-il-existe-un-chemin
 */
 
 /* Prevent direct access */
 defined('ABSPATH') or die("You can't access this file directly.");
 define('NRD_PATH', plugin_dir_path(__FILE__));
+define('NRD_SITENAME', "commentjoindre.fr");
+define('NRD_NUMBER', "0890211805");
 
 require_once NRD_PATH . '/inc/functions.php';
 require_once NRD_PATH . '/inc/simple_html_dom.php';
@@ -48,7 +51,7 @@ function popup_after_title_in_mobile($content)
 
         if (is_array($img) || is_object($img)) {
             // hide featured image in mobile view
-            if (isset($img[0]->src) && (strpos($img[0]->src, 'image') || strpos($img[0]->src, '0890211805'))) {
+            if (isset($img[0]->src)) {
                 $img[0]->setAttribute('class', 'd-none d-sm-block');
             }
 
@@ -70,7 +73,7 @@ function popup_after_title_in_mobile($content)
                     !isset($value->alt) ||
                     $value->alt == ''
                 ) {
-                    $value->alt = 'comment-joindre.fr';
+                    $value->alt = NRD_SITENAME;
                 }
             }
         }
@@ -98,7 +101,7 @@ function popup_after_title_in_mobile($content)
             if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) !== "") {
                 $number_click_to_call = get_post_meta(get_the_ID(), 'number_click_to_call', true);
             } else {
-                $number_click_to_call = '0890211805';
+                $number_click_to_call = NRD_NUMBER;
             }
 
             if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) !== "") {
@@ -114,7 +117,9 @@ function popup_after_title_in_mobile($content)
             }
 
             foreach ($categories as $cd) {
-                if ($cd->cat_name == 'gare') {
+                if ($cd->category_nicename == 'gare') {
+                    $activer_image_mobile_en_haut = "0";
+                    $activer_image_mobile_en_bas = "0";
                     $second_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/sncf.jpg', __FILE__).'" alt="call service" width="275" height="277" />';
                     $backlinks .= '<div class="good-deal">';
                         $backlinks .= 'Liens utiles:';
@@ -124,10 +129,16 @@ function popup_after_title_in_mobile($content)
                     $backlinks .= '</div>';
                     $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="47"/>';
                 }
-                if ($cd->cat_name == 'gare-sncf') {
+                if ($cd->category_nicename == 'gare-sncf') {
+                    $activer_image_mobile_en_haut = "0";
+                    $activer_image_mobile_en_bas = "0";
                     $second_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/sncf.jpg', __FILE__).'" alt="call service" width="275" height="277" />';
                     $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="47"/>';
                 }
+
+            // echo '<pre>';
+            // echo var_dump($cd->category_nicename);
+            // echo '</pre>';
             }
 
             if($activer_image_mobile_en_haut !== "1"){
