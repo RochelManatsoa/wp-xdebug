@@ -5,6 +5,7 @@ schema/*
 # ignore everything in "wordpress" directory except the "wp-content" directory.
 wordpress/*
 wordpress/wp-content/languages/*
+wordpress/wp-content/upgrade/*
 wordpress/wp-content/uploads/*
 wordpress/wp-content/fonts/*
 wordpress/wp-content/themes/twentytwentyone/*
@@ -15,6 +16,7 @@ wordpress/wp-content/themes/twentytwentythree/*
 # ignore everything in the "wp-content" directory, except:
 # "plugins", "themes" directory
 wp-content/*
+wp-content/plugins/wordpress-seo/*
 !wp-content/plugins/
 !wp-content/themes/
 
