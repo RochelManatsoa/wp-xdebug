@@ -11,7 +11,7 @@ Author Uri: https://rochel-nirina.welovedevs.com/
 defined('ABSPATH') or die("You can't access this file directly.");
 define('NRD_PATH', plugin_dir_path(__FILE__));
 define('SITE_NAME', "www.moncompte.org");
-define('SITE_NUMBER', "0890211833");
+define('SITE_NUMBER', "0890214950");
 
 require_once(NRD_PATH . "/inc/functions.php");
 require_once(NRD_PATH . "/inc/simple_html_dom.php");
@@ -29,7 +29,9 @@ function popup_after_title_in_mobile( $content ) {
                 $value->href = 'https://'.$value->href;
             }elseif(substr($value->href, 0, 5) === "http:"){
                 $value->href = substr($value->href, 0, 4).'s'.substr($value->href, 4);
-            }
+            }elseif(strpos($value->href, 'tel:0890211833') === 0){
+				$value->href = 'tel:'.SITE_NUMBER;
+			}
             // echo '<pre>'; 
             // echo $value->href;
             // echo '</pre>';
@@ -38,6 +40,17 @@ function popup_after_title_in_mobile( $content ) {
 
     if (is_array($img) || is_object($img)){
         foreach ($img as $value) {
+			if($value->src === "https://moncompte.org/wp-content/uploads/2023/03/VISUEL-ARTICLE-MON-COMPTE.jpg"){
+				$value->src = "https://moncompte.org/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950.jpg";
+				if(isset($value->srcset)){
+					$value->setAttribute('srcset', str_replace('https://moncompte.org/wp-content/uploads/2023/03/VISUEL-ARTICLE-MON-COMPTE', 'https://moncompte.org/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950', $value->srcset));
+				}
+			}elseif($value->src === "https://moncompte.org/wp-content/uploads/2022/06/mini-bouton-appeler.jpg"){
+				$value->src = "https://moncompte.org/wp-content/uploads/2023/06/cartouche.jpg";
+				if(isset($value->srcset)){
+					$value->setAttribute('srcset', str_replace('https://moncompte.org/wp-content/uploads/2022/06/mini-bouton-appeler', 'https://moncompte.org/wp-content/uploads/2023/06/cartouche', $value->srcset));
+				}
+			}
             if(empty($value->alt)){
                 $value->alt = 'Image dans '.SITE_NAME;
             }
@@ -79,7 +92,7 @@ function popup_after_title_in_mobile( $content ) {
 
             $activer_image_mobile_en_haut = "1";
             $activer_image_mobile_en_bas = "0";
-            $second_featured_image = '<img width="290" height="300" src="https://moncompte.org/wp-content/uploads/2023/06/VISUEL-POPUP-MOBILE-ET-BUREAU-DU-SITE-MON-COMPTE-290x300.jpg" class="image wp-image-2016  attachment-medium size-medium" alt="call service" decoding="async" loading="lazy" style="max-width: 100%; height: auto;" srcset="https://moncompte.org/wp-content/uploads/2023/06/VISUEL-POPUP-MOBILE-ET-BUREAU-DU-SITE-MON-COMPTE-290x300.jpg 290w, https://moncompte.org/wp-content/uploads/2023/06/VISUEL-POPUP-MOBILE-ET-BUREAU-DU-SITE-MON-COMPTE.jpg 616w" sizes="100vw">';
+            $second_featured_image = '<img width="272" height="300" src="https://moncompte.org/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-272x300.jpg" class="image wp-image-2020  attachment-medium size-medium" alt="call service" decoding="async" loading="lazy" style="max-width: 100%; height: auto;" srcset="https://moncompte.org/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-272x300.jpg 272w, https://moncompte.org/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950.jpg 616w" sizes="100vw">';
 
             if($second_featured_image !== "" && $activer_image_mobile_en_haut === "1"){
                 $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
@@ -107,7 +120,7 @@ function popup_after_title_in_mobile( $content ) {
                 $custom_content .= '</div>';
             }
 
-            $custom_content .= $content;
+            $custom_content .= $html;
 
             return $custom_content;
 
