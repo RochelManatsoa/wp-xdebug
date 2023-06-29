@@ -61,8 +61,8 @@ get_header(); ?>
                     Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:<?= CJG_NUMBER ?>">
-                        <img width="768" height="372" src="<?= plugins_url('../img/VisuelCTblog.jpeg', __FILE__)?>" alt="Appeler le service" class="wp-image-68" sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px">
+                    <a href="tel:<?= SITE_NUMBER ?>">
+                    <img loading="lazy" width="616" height="680" src="https://commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2.jpg" alt="call service" class="wp-image-46417" srcset="https://commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2.jpg 616w, https://commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2-272x300.jpg 272w" sizes="(max-width: 616px) 100vw, 616px">
                     </a>
                 </figure>
             <?php
