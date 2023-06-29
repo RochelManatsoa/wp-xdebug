@@ -2,7 +2,7 @@
 /*
 Plugin Name: commentjoindre.fr
 Description: Plugin qui affiche deux images flottante sur la version mobile du site (requiert les plugins : myStickyMenu, ACF). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 3.5.9
+Version: 3.6.0
 Author: Nirina Rochel
 Author Uri: https://rochel-nirina.welovedevs.com/
 */
@@ -17,50 +17,51 @@ require_once(CJG . "/inc/functions.php");
 require_once(CJG . "/inc/simple_html_dom.php");
 
 function popup_after_title_in_mobile( $content ) {
+    $html = new simple_html_dom();
+    $html->load($content);
+    $img = $html->find('img');
+    $link = $html->find('a');
+
+    if (is_array($link) || is_object($link)) {
+        foreach ($link as $value) {
+            if (strpos($value->href, 'tel:0890211805') === 0) {
+                // remove spaces in phone number
+                $value->href = 'tel:'.SITE_NUMBER;
+            }
+        }
+    }
+
+    if (is_array($img) || is_object($img)){
+        
+        foreach ($img as $value) {
+            $position = '';
+            if (
+                strpos($value->src, '2023/05/image') || 
+                strpos($value->src, '2021/11/image') || 
+                strpos($value->src, '2023/04/VISUEL-') || 
+                strpos($value->src, '2023/03/VISUEL-') || 
+                strpos($value->src, '2022/11/VISUEL-') || 
+                strpos($value->src, '2023/05/image') || 
+                strpos($value->src, '2022/07/assistance-') ||
+                strpos($value->src, '2023/05/assistance-par-telephone-service-client')
+            ) {
+                $value->src ='https://i0.wp.com/commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2.jpg';
+                if(isset($value->srcset)){
+                    $position = strpos($value->srcset, '.jpg');
+                    $value->setAttribute('srcset', str_replace(substr($value->srcset, 0, $position), 'https://i0.wp.com/commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2', $value->srcset));
+                }
+            }
+            // check alt attr defined
+            if($value->alt === null || !isset($value->alt) || $value->alt == ''){
+                $value->alt = SITE_NAME;
+            }
+        }            
+    }
 
     if( is_single() && ! empty( $GLOBALS['post'] ) ) {
-
-        $html = new simple_html_dom();
-        $html->load($content);
-        $img = $html->find('img');
-        $link = $html->find('a');
-
-        if (is_array($link) || is_object($link)) {
-            foreach ($link as $value) {
-                if (strpos($value->href, 'tel:0890211805') === 0) {
-                    // remove spaces in phone number
-                    $value->href = 'tel:'.SITE_NUMBER;
-                }
-            }
-        }
-
-        if (is_array($img) || is_object($img)){
-            if(isset($img[0]->src) && strpos($img[0]->src, 'image')){
-                $img[0]->setAttribute('class', 'd-none d-sm-block');
-            }
-            foreach ($img as $value) {
-				$position = '';
-                if (
-					strpos($value->src, '2023/05/image') || 
-					strpos($value->src, '2021/11/image') || 
-					strpos($value->src, '2023/04/VISUEL-') || 
-					strpos($value->src, '2023/03/VISUEL-') || 
-					strpos($value->src, '2023/05/image') || 
-					strpos($value->src, '2022/07/assistance-') ||
-					strpos($value->src, '2023/05/assistance-par-telephone-service-client')
-				) {
-                    $value->src ='https://i0.wp.com/commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2.jpg';
-                    if(isset($value->srcset)){
-						$position = strpos($value->srcset, '.jpg');
-                        $value->setAttribute('srcset', str_replace(substr($value->srcset, 0, $position), 'https://i0.wp.com/commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2', $value->srcset));
-                    }
-                }
-                // check alt attr defined
-                if($value->alt === null || !isset($value->alt) || $value->alt == ''){
-                    $value->alt = SITE_NAME;
-                }
-            }            
-        }
+        if(isset($img[0]->src) && strpos($img[0]->src, 'image')){
+            $img[0]->setAttribute('class', 'd-none d-sm-block');
+        }       
 
         // add popup if single
         if ( $GLOBALS['post']->ID == get_the_ID() ) {
@@ -120,10 +121,9 @@ function popup_after_title_in_mobile( $content ) {
             return $custom_content;
 
         }
-
     }
 
-    return $content;
+    return $html;
 }
 
 add_filter('the_content', 'popup_after_title_in_mobile');
