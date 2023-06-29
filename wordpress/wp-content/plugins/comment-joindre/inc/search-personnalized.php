@@ -61,8 +61,8 @@ get_header(); ?>
                     Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:<?= NRD_NUMBER ?>">
-                        <img width="768" height="372" src="<?= plugins_url('../img/default.jpg', __FILE__)?>" alt="Appeler le service" class="wp-image-68" >
+                    <a href="tel:<?= SITE_NUMBER ?>">
+                    <img decoding="async" width="525" height="580" src="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=525%2C580&amp;ssl=1" data-src="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=525%2C580&amp;ssl=1" alt="commentjoindre.fr" class="d-none d-sm-block lazyloaded" data-srcset="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?w=616&amp;ssl=1 616w, https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=272%2C300&amp;ssl=1 272w" data-sizes="(max-width: 525px) 100vw, 525px" data-recalc-dims="1" sizes="(max-width: 525px) 100vw, 525px" srcset="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?w=616&amp;ssl=1 616w, https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=272%2C300&amp;ssl=1 272w">
                     </a>
                 </figure>
             <?php
