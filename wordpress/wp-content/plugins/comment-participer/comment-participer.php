@@ -2,7 +2,7 @@
 /*
 Plugin Name: Comment participer
 Description: Plugin qui affiche deux images flottante sur la version mobile du site (requiert les plugins : myStickyMenu, ACF). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 2.2.7
+Version: 2.2.8
 Author: Nirina Rochel
 Author Uri: https://rochel-nirina.welovedevs.com/
 */

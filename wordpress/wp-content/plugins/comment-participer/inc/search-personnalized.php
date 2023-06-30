@@ -58,7 +58,7 @@ get_header(); ?>
             ?>
 
                 <p>
-                    Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
+                Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement.
                 </p>
                 <figure class="wp-block-image size-full">
                     <a href="tel:<?= SITE_NUMBER ?>">
