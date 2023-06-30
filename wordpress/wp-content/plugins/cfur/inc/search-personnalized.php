@@ -61,8 +61,8 @@ get_header(); ?>
                     Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:0890211805">
-                        <img width="768" height="372" src="https://comment-faire-une-reclamation.fr/wp-content/uploads/2022/07/bouton-appelez-CFUR-remmedia0890211805.jpg" alt="Appeler le service" class="wp-image-68" srcset="https://comment-faire-une-reclamation.fr/wp-content/uploads/2022/07/bouton-appelez-CFUR-remmedia0890211805.jpg 768w, https://comment-faire-une-reclamation.fr/wp-content/uploads/2022/07/bouton-appelez-CFUR-remmedia0890211805-300x145.jpg 300w" sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px">
+                    <a href="tel:<?= SITE_NUMBER ?>">
+                    <img decoding="async" width="531" height="713" src="https://i0.wp.com/comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR.jpg" alt="Image dans comment-faire-une-reclamation.fr" class="wp-image-3022" srcset="https://i0.wp.com/comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR.jpg?w=531&amp;ssl=1 531w, https://i0.wp.com/comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR.jpg?resize=223%2C300&amp;ssl=1 223w" sizes="(max-width: 525px) 100vw, 525px">
                     </a>
                 </figure>
             <?php

@@ -2,13 +2,15 @@
 /*
 Plugin Name: Comment Faire Une Réclamation
 Description: Plugin qui affiche un popup flottante sur la version mobile du site (requiert le plugin myStickyMenu), corrige les liens externes et mail générant un 404 error, ajoute des balises alt sur tout les images et filtre les urls dans le sitemap
-Version: 3.0.5
+Version: 3.0.7
 Author: Nirina Rochel
 */
 
 /* Prevent direct access */
 defined('ABSPATH') or die("You can't access this file directly.");
 define('NRD_PATH', plugin_dir_path(__FILE__));
+define('SITE_NAME', "comment-faire-une-reclamation.fr");
+define('SITE_NUMBER', "0890211833");
 
 require_once(NRD_PATH . "/inc/functions.php");
 require_once(NRD_PATH . "/inc/simple_html_dom.php");
@@ -23,62 +25,42 @@ function popup_after_title_in_mobile( $content ) {
     if (is_array($link) || is_object($link)){
 
         foreach ($link as $value) {
-
-            // check if email
-            if(strpos($value->href, '@')){
-                if(substr($value->href, 0, 7) !== "mailto:"){
-                    $value->href = 'mailto:'.$value->href;
-                }
-            }elseif(strpos($value->href, 'tel:') === 0){
-                $value->href = 'tel:0890211805';
+            if(strpos($value->href, 'tel:0890211805') === 0){
+                $value->href = 'tel:'.SITE_NUMBER;
             }else{
-
-                // Check https
-                if(filter_var($value->href, FILTER_VALIDATE_URL) === FALSE){
-                    $value->href = '#';
-                }elseif(substr($value->href, 0, 3) === "www"){
+                if(substr($value->href, 0, 3) === "www"){
                     $value->href = 'https://'.$value->href;
                 }elseif(substr($value->href, 0, 5) === "http:"){
                     $value->href = substr($value->href, 0, 4).'s'.substr($value->href, 4);
                 }
             }
-            // echo '<pre>'; 
-            // echo $value->href;
-            // echo '</pre>';
-        }
-        
+        }        
     }
 
     if (is_array($img) && $img !== [] || is_object($img)){
         if (is_single()) {
             $img[0]->setAttribute('class', 'd-none d-sm-block');
         }
-
         foreach ($img as $value) {
-            // echo '<pre>'; 
-            // echo $value->src;
-            // echo '</pre>';
-
-            // check alt attr defined
+            $position = '';
             if(isset($value->alt) && empty($value->alt)){
-                $value->alt = 'Image dans comment-faire-une-reclamation.fr';
+                $value->alt = 'Image dans '.SITE_NAME;
             }
-
-            $default = "comment-faire-une-reclamation.fr/wp-content/uploads/2022/03/bouton_APPELER_CFUR.png";
-            $smcImg = "suivremacommande.fr/wp-content/uploads/2020/04/bouton_APPELER_SUIVRE-MA-COMMANE-0893033341.jpg";
-
-            if(strpos($value->src, $default) !== false || strpos($value->src, $smcImg) !== false){
-                $value->src = 'https://comment-faire-une-reclamation.fr/wp-content/uploads/2022/07/bouton-appelez-CFUR-remmedia0890211805.jpg';
-                if(is_single()){
-                    $value->setAttribute('class', 'd-none d-sm-block');
-                }
-            }
-
-            if(isset($value->srcset) && strpos($value->srcset, $default) !== false){
-                $value->src = 'https://comment-faire-une-reclamation.fr/wp-content/uploads/2022/07/bouton-appelez-CFUR-remmedia0890211805.jpg';
-                $value->setAttribute('srcset', str_replace('/uploads/2022/03/bouton_APPELER_CFUR.png', '/uploads/2022/07/bouton-appelez-CFUR-remmedia0890211805.jpg', $value->srcset));
-                if(is_single()){
-                    $value->setAttribute('class', 'd-none d-sm-block');
+            if (
+                strpos($value->src, '/2023/03/VISUEL-') || 
+                strpos($value->src, '/2020/04/bouton') ||
+                strpos($value->src, '/2022/03/bouton') ||
+                strpos($value->src, '/2023/04/faire') ||
+                strpos($value->src, '/2023/03/CFUR')
+            ) {
+                $value->src ='https://i0.wp.com/comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR.jpg';
+                if(isset($value->srcset)){
+                    $position = strpos($value->srcset, '.jpg');
+                    if($position){
+                        $value->setAttribute('srcset', str_replace(substr($value->srcset, 0, $position), 'https://i0.wp.com/comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR', $value->srcset));
+                    }else{
+                        $value->srcset = null;
+                    }
                 }
             }
         }
@@ -91,35 +73,33 @@ function popup_after_title_in_mobile( $content ) {
         if ( $GLOBALS['post']->ID == get_the_ID() ) {
             
             $custom_content = '';
-
+            $second_featured_image = '';
+            $third_featured_image = '';
+            $activer_image_mobile_en_haut = '';
+            $activer_image_mobile_en_bas = '';
+            $number_click_to_call = SITE_NUMBER;
 
             if (metadata_exists('post', get_the_ID(), 'second_featured_image') && get_post_meta(get_the_ID(), 'second_featured_image', true) !== "") {
                 $second_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'second_featured_image', true), 'full');
-            } else {
-                $second_featured_image = '<img class="alignnone size-full ls-is-cached lazyloaded" src="https://comment-faire-une-reclamation.fr/wp-content/uploads/2023/03/CFUR-pour-popup-mobile-HAUT.jpg" alt="call service" width="298" height="257" />';
-            }
-    
+            } 
             if (metadata_exists('post', get_the_ID(), 'third_featured_image') && get_post_meta(get_the_ID(), 'third_featured_image', true) !== "") {
                 $third_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'third_featured_image', true), 'full');
-            } else {
-                $third_featured_image = '<img class="alignnone size-full ls-is-cached lazyloaded" src="https://comment-faire-une-reclamation.fr/wp-content/uploads/2022/10/CFUR.png" alt="cartouche" width="425" height="71"/>';
             }
-    
-    
-            if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) !== "") {
+            if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) === "1") {
                 $number_click_to_call = get_post_meta(get_the_ID(), 'number_click_to_call', true);
-            } else {
-                $number_click_to_call = '0890211805';
-            }
-
-            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) !== "") {
+            } 
+            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) === "1") {
                 $activer_image_mobile_en_haut = get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true);
-            }else{
-                $activer_image_mobile_en_haut = "0";
+            }
+            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_bas') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true) !== "") {
+                $activer_image_mobile_en_bas = get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true);
             }
 
+            $activer_image_mobile_en_haut = "1";
+            $activer_image_mobile_en_bas = "0";
+            $second_featured_image = '<img decoding="async" loading="lazy" width="616" height="680" src="https://comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR.jpg" alt="call service" class="wp-image-5170" srcset="https://i0.wp.com/comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR.jpg?w=616&amp;ssl=1 616w, https://i0.wp.com/comment-faire-une-reclamation.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-CFUR.jpg?resize=272%2C300&amp;ssl=1 272w" sizes="(max-width: 616px) 100vw, 616px">';
 
-            if($activer_image_mobile_en_haut !== "1"){
+            if($second_featured_image !== "" && $activer_image_mobile_en_haut === "1"){
                 $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
                 $custom_content .= '<div class="textwidget-slide">';
                 $custom_content .= '<figure class="wp-block-image">';
@@ -131,13 +111,7 @@ function popup_after_title_in_mobile( $content ) {
                 $custom_content .= '</div>';
             }
 
-            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_bas') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true) !== "") {
-                $activer_image_mobile_en_bas = get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true);
-            }else{
-                $activer_image_mobile_en_bas = "0";
-            }
-
-            if($activer_image_mobile_en_bas !== "1"){
+            if($third_featured_image !== "" && $activer_image_mobile_en_bas === "1"){
                 $custom_content .= '<div class="container-fluid fixed-bottom d-block d-sm-none text-center align-center ">';
                 $custom_content .= '<figure>';
                 $custom_content .= '<a href="tel:'.$number_click_to_call.'">';
@@ -146,7 +120,6 @@ function popup_after_title_in_mobile( $content ) {
                 $custom_content .= '</figure>';
                 $custom_content .= '</div>';
             }
-
 
             $custom_content .= $html;
 
