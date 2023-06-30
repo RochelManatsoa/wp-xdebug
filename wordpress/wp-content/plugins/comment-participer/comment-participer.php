@@ -2,7 +2,7 @@
 /*
 Plugin Name: Comment participer
 Description: Plugin qui affiche deux images flottante sur la version mobile du site (requiert les plugins : myStickyMenu, ACF). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 2.2.4
+Version: 2.2.7
 Author: Nirina Rochel
 Author Uri: https://rochel-nirina.welovedevs.com/
 */
@@ -10,6 +10,8 @@ Author Uri: https://rochel-nirina.welovedevs.com/
 /* Prevent direct access */
 defined('ABSPATH') or die("You can't access this file directly.");
 define('NRD_PATH', plugin_dir_path(__FILE__));
+define('SITE_NAME', "comment-participer.fr");
+define('SITE_NUMBER', "0890214950");
 
 require_once(NRD_PATH . "/inc/functions.php");
 require_once(NRD_PATH . "/inc/simple_html_dom.php");
@@ -30,31 +32,43 @@ function popup_after_title_in_mobile( $content ) {
                 if(substr($value->href, 0, 7) !== "mailto:"){
                     $value->href = 'mailto:'.$value->href;
                 }
-            }elseif(strpos($value->href, 'tel:') === 0){
-                $value->href = 'tel:0890211805';
+            }elseif(strpos($value->href, 'tel:0890211805') === 0){
+                $value->href = 'tel:'.SITE_NUMBER;
             }else{
-
                 // Check https
-                if(filter_var($value->href, FILTER_VALIDATE_URL) === FALSE){
-                    $value->href = '#';
-                }elseif(substr($value->href, 0, 3) === "www"){
+                if(substr($value->href, 0, 3) === "www"){
                     $value->href = 'https://'.$value->href;
                 }elseif(substr($value->href, 0, 5) === "http:"){
                     $value->href = substr($value->href, 0, 4).'s'.substr($value->href, 4);
                 }
             }
-            // echo '<pre>'; 
-            // echo $value->href;
-            // echo '</pre>';
         }
         
     }
     
     if (is_array($img) || is_object($img)){
+        foreach ($img as $value) {
+            $position = '';
+            if (
+                strpos($value->src, '2023/03/visuel-') ||
+                strpos($value->src, '2022/11/0890211805')
+            ) {
+                $value->src ='https://i0.wp.com/comment-participer.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-1.jpg';
+                if(isset($value->srcset)){
+                    $position = strpos($value->srcset, '.jpg');
+                    if($position){
+                        $value->setAttribute('srcset', str_replace(substr($value->srcset, 0, $position), 'https://i0.wp.com/comment-participer.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-1', $value->srcset));
+                    }else{
+                        $value->srcset = null;
+                    }
+                    
+                }
+            }
 
-        // check alt attr defined
-        if(empty($value->alt)){
-            $value->alt = 'Image dans moncompte.org';
+            // check alt attr defined
+            if(empty($value->alt)){
+                $value->alt = 'Image dans '.SITE_NAME;
+            }
         }
         
     }
@@ -72,38 +86,33 @@ function popup_after_title_in_mobile( $content ) {
         if ( $GLOBALS['post']->ID == get_the_ID() ) {
             
             $custom_content = '';
-
+            $second_featured_image = '';
+            $third_featured_image = '';
+            $activer_image_mobile_en_haut = '';
+            $activer_image_mobile_en_bas = '';
+            $number_click_to_call = SITE_NUMBER;
 
             if (metadata_exists('post', get_the_ID(), 'second_featured_image') && get_post_meta(get_the_ID(), 'second_featured_image', true) !== "") {
                 $second_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'second_featured_image', true), 'full');
-            } else {
-                $second_featured_image = '<img loading="lazy" width="425" height="245" src="https://comment-participer.fr/wp-content/uploads/2022/11/0890211805-par-REMMEDIA-pour-COMMENT-PARTICIPER.jpg">';
-            }
-    
+            } 
             if (metadata_exists('post', get_the_ID(), 'third_featured_image') && get_post_meta(get_the_ID(), 'third_featured_image', true) !== "") {
                 $third_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'third_featured_image', true), 'full');
-            } else {
-                $third_featured_image = '<img class="alignnone size-full ls-is-cached lazyloaded" src="https://comment-participer.fr/wp-content/uploads/2022/11/commentparticiper.png" alt="cartouche" width="425" height="112"/>';
             }
-    
-    
-            if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) !== "") {
+            if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) === "1") {
                 $number_click_to_call = get_post_meta(get_the_ID(), 'number_click_to_call', true);
-            } else {
-                $number_click_to_call = '0890211805';
-            }
-
-            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) !== "") {
+            } 
+            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) === "1") {
                 $activer_image_mobile_en_haut = get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true);
-            }else{
-                $activer_image_mobile_en_haut = "0";
+            }
+            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_bas') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true) !== "") {
+                $activer_image_mobile_en_bas = get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true);
             }
 
-            // echo '<pre>'; 
-            // echo $second_featured_image;
-            // echo '</pre>';
+            $activer_image_mobile_en_haut = "1";
+            $activer_image_mobile_en_bas = "0";
+            $second_featured_image = '<img decoding="async" loading="lazy" width="616" height="680" src="https://comment-participer.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-1.jpg" alt="call service" class="wp-image-2074" srcset="https://comment-participer.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-1.jpg 616w, https://comment-participer.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-1-272x300.jpg 272w" sizes="(max-width: 616px) 100vw, 616px">';
 
-            if($activer_image_mobile_en_haut !== "1"){
+            if($second_featured_image !== "" && $activer_image_mobile_en_haut === "1"){
                 $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
                 $custom_content .= '<div class="textwidget-slide">';
                 $custom_content .= '<figure class="wp-block-image">';
@@ -115,13 +124,7 @@ function popup_after_title_in_mobile( $content ) {
                 $custom_content .= '</div>';
             }
 
-            if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_bas') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true) !== "") {
-                $activer_image_mobile_en_bas = get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true);
-            }else{
-                $activer_image_mobile_en_bas = "0";
-            }
-
-            if($activer_image_mobile_en_bas !== "1"){
+            if($third_featured_image !== "" && $activer_image_mobile_en_bas === "1"){
                 $custom_content .= '<div class="container-fluid fixed-bottom d-block d-sm-none text-center align-center ">';
                 $custom_content .= '<figure>';
                 $custom_content .= '<a href="tel:'.$number_click_to_call.'">';
@@ -130,7 +133,6 @@ function popup_after_title_in_mobile( $content ) {
                 $custom_content .= '</figure>';
                 $custom_content .= '</div>';
             }
-
 
             $custom_content .= $html;
 
