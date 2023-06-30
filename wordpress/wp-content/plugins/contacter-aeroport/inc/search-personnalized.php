@@ -58,11 +58,11 @@ get_header(); ?>
             ?>
 
                 <p>
-                    Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
+                 Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:0890211805">
-                        <img width="768" height="372" src="https://contacter-aeroport.com/wp-content/uploads/2022/11/0890211805-par-REMMEDIA-pour-CONTACTER-AEROPORT.jpg" alt="Appeler le service" class="wp-image-68" srcset="https://contacter-aeroport.com/wp-content/uploads/2022/11/0890211805-par-REMMEDIA-pour-CONTACTER-AEROPORT.jpg 768w, https://contacter-aeroport.com/wp-content/uploads/2022/11/0890211805-par-REMMEDIA-pour-CONTACTER-AEROPORT-300x145.jpg 300w" sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px">
+                    <a href="tel:<?= SITE_NUMBER ?>">
+                        <img width="768" height="372" src="https://contacter-aeroport.com/wp-content/uploads/2023/06/NOUVEAU-VISUEL-0890214950-1.jpg" alt="Appeler le service" class="wp-image-68">
                     </a>
                 </figure>
             <?php
