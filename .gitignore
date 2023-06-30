@@ -11,6 +11,7 @@ wordpress/wp-content/fonts/*
 wordpress/wp-content/themes/twentytwentyone/*
 wordpress/wp-content/themes/twentytwentytwo/*
 wordpress/wp-content/themes/twentytwentythree/*
+wordpress/wp-content/plugins/suivremacommande/*
 !wp-content/
 
 # ignore everything in the "wp-content" directory, except:
