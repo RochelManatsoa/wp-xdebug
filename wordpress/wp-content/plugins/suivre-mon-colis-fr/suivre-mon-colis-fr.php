@@ -1,8 +1,8 @@
 <?php
 /*
 Plugin Name: suivre-mon-colis.fr
-Description: Plugin qui ajoute des balises alt sur tout les images, affiche le popup flottant sur mobile, ajoute des police de caractère
-Version: 2.2.5
+Description: Plugin qui affiche un popup flottante sur la version mobile du site (requiert le plugin myStickyMenu), corrige les liens externes et mail générant un 404 error, ajoute des balises alt sur tout les images et filtre les urls dans le sitemap
+Version: 2.2.8
 Author: Nirina Rochel
 Author URI: https://welovedevs.com/app/fr/developer/rochel-la-ou-se-trouve-une-volonte-il-existe-un-chemin
 */
@@ -15,6 +15,8 @@ define('PFM_PATH', plugin_dir_path(__FILE__));
 
 require_once(PFM_PATH . "/inc/functions.php");
 require_once(PFM_PATH . "/inc/simple_html_dom.php");
+define('SITE_NAME', "suivre-mon-colis.fr");
+define('SITE_NUMBER', "0893033341");
 
 function popup_after_title_in_mobile($content)
 {
@@ -26,14 +28,13 @@ function popup_after_title_in_mobile($content)
     if (is_array($link) || is_object($link)) {
 
         foreach ($link as $value) {
-
             // check if email
             if (strpos($value->href, '@')) {
                 if (substr($value->href, 0, 7) !== "mailto:") {
                     $value->href = 'mailto:' . $value->href;
                 }
-            } elseif (strpos($value->href, '0891038148')) {
-                $value->href = 'tel:0893033341';
+            } elseif (strpos($value->href, '0891038148') || strpos($value->href, '0893033341')) {
+                $value->href = 'tel:'.SITE_NUMBER;
             } else {
                 // Check https
                 if (substr($value->href, 0, 3) === "www") {
@@ -49,45 +50,83 @@ function popup_after_title_in_mobile($content)
         if (isset($img[0]->src) && (strpos($img[0]->src, 'image') || strpos($img[0]->src, '0890211805'))) {
             $img[0]->setAttribute('class', 'd-none d-sm-block');
         }
-
         foreach ($img as $value) {
-            // check alt attr defined
-            if ($value->alt === null || !isset($value->alt) || $value->alt == '') {
-                $value->alt = 'suivre-mon-colis.fr';
+            $position = '';
+            if(isset($value->alt) && empty($value->alt)){
+                $value->alt = 'Image dans '.SITE_NAME;
             }
-            if (isset($value->src) && (strpos($value->src, 'keyyo-2'))) {
-                $value->src = 'https://suivre-mon-colis.fr/wp-content/uploads/2023/01/cartouche-suivre-mon-colis-FRANCE-Copie.jpg';
-                $value->setAttribute('width', '500');
-                $value->setAttribute('height', '238');
+            if (
+                strpos($value->src, '/2023/01/cartouche') || 
+                strpos($value->src, '/2020/04/bouton') ||
+                strpos($value->src, '/2022/03/bouton') ||
+                strpos($value->src, '/2023/04/faire') ||
+                strpos($value->src, '/2023/03/CFUR')
+            ) {
+                $value->src ='https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg';
+                if(isset($value->srcset)){
+                    $value->srcset = null;
+                    // $position = strpos($value->srcset, '.jpg');
+                    // if($position){
+                    //     $value->setAttribute('srcset', str_replace(substr($value->srcset, 0, $position), 'https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR', $value->srcset));
+                    // }else{
+                    //     $value->srcset = null;
+                    // }
+                }
             }
-            if (isset($value->srcset) && strpos($value->srcset, 'keyyo-2')) {
-                $value->src = 'https://suivre-mon-colis.fr/wp-content/uploads/2023/01/cartouche-suivre-mon-colis-FRANCE-Copie.jpg';
-                $value->setAttribute('srcset', str_replace('2021/03/bouton-appelez-suivremoncolisFR-keyyo-2.jpg', '2023/01/cartouche-suivre-mon-colis-FRANCE-Copie.jpg', $value->srcset));
-                $value->setAttribute('width', '500');
-                $value->setAttribute('height', '238');
-            }
-            // echo '<pre>';
-            // echo $value->src;
-            // echo '</pre>';
         }
     }
 
     if (is_single() && $GLOBALS['post']->ID == get_the_ID()) {
+
         $custom_content = '';
-        // $custom_content = '
-        //         <div class="container-fluid Mobile_W d-none d-block d-sm-none text-center align-center py-3 bg-white shadow">
-        //             <div class="textwidget-slide">                    
-        //                 <figure class="wp-block-image"><a href="tel:0893033341"><img src="https://suivre-mon-colis.fr/wp-content/uploads/2023/01/VM-suivremoncolisFRANCE-0893033341-.jpg" alt="call service" width="217" height="255"></a></figure>
-        //             </div>        
-        //         </div>';
+        $second_featured_image = '';
+        $third_featured_image = '';
+        $activer_image_mobile_en_haut = '';
+        $activer_image_mobile_en_bas = '';
+        $number_click_to_call = SITE_NUMBER;
+
+        if (metadata_exists('post', get_the_ID(), 'second_featured_image') && get_post_meta(get_the_ID(), 'second_featured_image', true) !== "") {
+            $second_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'second_featured_image', true), 'full');
+        } 
+        if (metadata_exists('post', get_the_ID(), 'third_featured_image') && get_post_meta(get_the_ID(), 'third_featured_image', true) !== "") {
+            $third_featured_image = wp_get_attachment_image(get_post_meta(get_the_ID(), 'third_featured_image', true), 'full');
+        }
+        if (metadata_exists('post', get_the_ID(), 'number_click_to_call') && get_post_meta(get_the_ID(), 'number_click_to_call', true) === "1") {
+            $number_click_to_call = get_post_meta(get_the_ID(), 'number_click_to_call', true);
+        } 
+        if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_haut') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true) === "1") {
+            $activer_image_mobile_en_haut = get_post_meta(get_the_ID(), 'activer_image_mobile_en_haut', true);
+        }
+        if (metadata_exists('post', get_the_ID(), 'activer_image_mobile_en_bas') && get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true) !== "") {
+            $activer_image_mobile_en_bas = get_post_meta(get_the_ID(), 'activer_image_mobile_en_bas', true);
+        }
         
-        $custom_content .= '<div class="container-fluid fixed-bottom d-block d-sm-none text-center align-center py-3 bg-white shadow">';
-        $custom_content .= '<figure>';
-        $custom_content .= '<a href="tel:0893033341">';
-        $custom_content .= '<img class="alignnone size-full ls-is-cached lazyloaded" src="https://suivremacommande.fr/wp-content/uploads/2023/01/0893033341-BOUTON-APPEL-pour-SUIVRE-MA-COMMANDE-FRANCE.jpg" alt="cartouche" width="425" height="202"/>';
-        $custom_content .= '</a>';
-        $custom_content .= '</figure>';
-        $custom_content .= '</div>';
+        $activer_image_mobile_en_haut = "1";
+        $activer_image_mobile_en_bas = "0";
+        $second_featured_image = '<img decoding="async" loading="lazy" width="616" height="680" src="https://suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg" alt="call service" class="wp-image-2352" srcset="https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg?w=616&amp;ssl=1 616w, https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg?resize=272%2C300&amp;ssl=1 272w" sizes="(max-width: 616px) 100vw, 616px">';
+
+        if($second_featured_image !== "" && $activer_image_mobile_en_haut === "1"){
+            $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
+            $custom_content .= '<div class="textwidget-slide">';
+            $custom_content .= '<figure class="wp-block-image">';
+            $custom_content .= '<a href="tel:'.$number_click_to_call.'">';
+            $custom_content .= $second_featured_image;
+            $custom_content .= '</a>';
+            $custom_content .= '</figure>';
+            $custom_content .= '</div>';
+            $custom_content .= '</div>';
+        }
+
+        if($third_featured_image !== "" && $activer_image_mobile_en_bas === "1"){
+            $custom_content .= '<div class="container-fluid fixed-bottom d-block d-sm-none text-center align-center ">';
+            $custom_content .= '<figure>';
+            $custom_content .= '<a href="tel:'.$number_click_to_call.'">';
+            $custom_content .= $third_featured_image;
+            $custom_content .= '</a>';
+            $custom_content .= '</figure>';
+            $custom_content .= '</div>';
+        }
+        
         $custom_content .= $html;
 
         return $custom_content;
