@@ -58,11 +58,11 @@ get_header(); ?>
             ?>
 
                 <p class="">
-                    Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
+                Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:0893033341">
-                        <img width="768" height="372" src="https://suivremacommande.fr/wp-content/uploads/2023/01/cartouche-suivre-ma-commande.jpg" alt="search result">
+                    <a href="tel:<?= SITE_NUMBER ?>">
+                        <img width="768" height="372" src="https://i0.wp.com/suivremacommande.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg" alt="search result">
                     </a>
                 </figure>
             <?php
