@@ -58,11 +58,11 @@ get_header(); ?>
             ?>
 
                 <p>
-                    Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
+                Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement.
                 </p>
                 <figure class="wp-block-image size-full">
                     <a href="tel:<?= SITE_NUMBER ?>">
-                        <img src="<?= plugins_url('../img/VisuelCTblog.jpg', __FILE__)?>" alt="Appeler le service" class="wp-image-68">
+                        <img src="https://contacter.re/wp-content/uploads/2023/07/VISUEL-0890211833-POUR-REUNION.jpg" alt="Appeler le service" class="wp-image-68">
                     </a>
                 </figure>
             <?php

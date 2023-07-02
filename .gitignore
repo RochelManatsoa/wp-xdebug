@@ -8,6 +8,10 @@ wordpress/wp-content/languages/*
 wordpress/wp-content/fonts/*
 wordpress/wp-content/uploads/*
 wordpress/wp-content/themes/servicer/*
+wordpress/wp-content/themes/twentytwentyone/*
+wordpress/wp-content/themes/twentytwentythree/*
+wordpress/wp-content/themes/twentytwentytwo/*
+wordpress/wp-content/plugins/suivre-mon-colis-fr/*
 wordpress/wp-content/plugins/woocommerce/*
 !wp-content/
 
