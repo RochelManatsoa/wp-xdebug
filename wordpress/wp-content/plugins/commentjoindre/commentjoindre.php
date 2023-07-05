@@ -2,7 +2,7 @@
 /*
 Plugin Name: commentjoindre.fr
 Description: Plugin qui affiche deux images flottante sur la version mobile du site (requiert les plugins : myStickyMenu, ACF). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 3.6.1
+Version: 3.6.4
 Author: Nirina Rochel
 Author Uri: https://rochel-nirina.welovedevs.com/
 */
@@ -41,6 +41,9 @@ function popup_after_title_in_mobile( $content ) {
                 strpos($value->src, '2023/04/VISUEL-') || 
                 strpos($value->src, '2023/03/VISUEL-') || 
                 strpos($value->src, '2022/11/VISUEL-') || 
+                strpos($value->src, '2022/08/image') || 
+                strpos($value->src, '2022/11/image') || 
+                strpos($value->src, '2023/06/VISUEL-') || 
                 strpos($value->src, '2023/05/image') || 
                 strpos($value->src, '2022/07/assistance-') ||
                 strpos($value->src, '2023/05/assistance-par-telephone-service-client')
@@ -48,7 +51,11 @@ function popup_after_title_in_mobile( $content ) {
                 $value->src ='https://i0.wp.com/commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2.jpg';
                 if(isset($value->srcset)){
                     $position = strpos($value->srcset, '.jpg');
-                    $value->setAttribute('srcset', str_replace(substr($value->srcset, 0, $position), 'https://i0.wp.com/commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2', $value->srcset));
+                    if($position){
+                        $value->setAttribute('srcset', str_replace(substr($value->srcset, 0, $position), 'https://i0.wp.com/commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2', $value->srcset));
+                    }else{
+                        $value->srcset = null;
+                    }
                 }
             }
             // check alt attr defined
