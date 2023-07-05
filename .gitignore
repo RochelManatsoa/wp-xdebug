@@ -11,6 +11,7 @@ wordpress/wp-content/themes/servicer/*
 wordpress/wp-content/themes/twentytwentyone/*
 wordpress/wp-content/themes/twentytwentythree/*
 wordpress/wp-content/themes/twentytwentytwo/*
+wordpress/wp-content/plugins/suivre-mon-colis-fr/*
 !wp-content/
 
 # ignore everything in the "wp-content" directory, except:
