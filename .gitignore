@@ -6,6 +6,7 @@ schema/*
 wordpress/*
 wordpress/wp-content/languages/*
 wordpress/wp-content/uploads/*
+wordpress/wp-content/upgrade/*
 wordpress/wp-content/fonts/*
 wordpress/wp-content/themes/servicer/*
 wordpress/wp-content/themes/twentytwentyone/*
