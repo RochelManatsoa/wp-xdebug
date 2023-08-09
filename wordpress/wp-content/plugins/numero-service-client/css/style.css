@@ -1,0 +1,199 @@
+body {
+	font-family: 'Ubuntu', serif!important;
+}
+
+h1, h2, h3 {
+	font-family: 'Montserrat', sans-serif!important;
+}
+
+button, input {
+	font-family: 'PT Sans', sans-serif!important;
+}
+
+.social-navigation a{
+	background-color: rgb(46,153,226)!important;
+}
+
+.has-background, .navigation-top{
+	background-color: #A8D8FC!important;
+}
+#site-navigation{
+	font-family: 'Montserrat', sans-serif!important;
+	font-size:1.4em!important;
+}
+
+.site-info{
+	display: none;
+}
+
+.textwidget-slide{
+	display:none!important;
+}
+@media only screen and (max-width: 600px) {
+	.navbar-brand{
+		font-size:30px!important;
+		line-height: 30px!important;
+	}
+	.page-title{
+		font-size:18px!important;
+	}
+	.textwidget-slide{
+		display:block!important;
+		margin-top:25px!important;
+	}
+	#mysticky-nav.wrapfixed, #mysticky-nav.wrapfixed .myfixed{
+		background:#fff!important;
+	}
+	#mysticky-nav.wrapfixed{
+		box-shadow:0px 1px 4px silver;
+	}
+}
+.search-form .search-submit {
+	bottom: 3px;
+	padding: 0.5em 1em;
+	position: absolute;
+	right: 3px;
+}
+#colophon{
+	background-color: #A8D8FC!important;
+}
+h2, .home.blog .entry-title {
+	color: #A8D8FC!important;
+	text-shadow: 1px 0px 1px black!important;
+    font-size: 20px;
+    font-size: 1.25rem;
+    font-weight: 300;
+}
+
+
+.entry-content a:focus,
+.entry-content a:hover,
+.entry-summary a:focus,
+.entry-summary a:hover,
+.comment-content a:focus,
+.comment-content a:hover,
+.widget a:focus,
+.widget a:hover,
+.site-footer .widget-area a:focus,
+.site-footer .widget-area a:hover,
+.posts-navigation a:focus,
+.posts-navigation a:hover,
+.comment-metadata a:focus,
+.comment-metadata a:hover,
+.comment-metadata a.comment-edit-link:focus,
+.comment-metadata a.comment-edit-link:hover,
+.comment-reply-link:focus,
+.comment-reply-link:hover,
+.widget_authors a:focus strong,
+.widget_authors a:hover strong,
+.entry-title a:focus,
+.entry-title a:hover,
+.entry-meta a:focus,
+.entry-meta a:hover,
+.page-links a:focus .page-number,
+.page-links a:hover .page-number,
+.entry-footer a:focus,
+.entry-footer a:hover,
+.entry-footer .cat-links a:focus,
+.entry-footer .cat-links a:hover,
+.entry-footer .tags-links a:focus,
+.entry-footer .tags-links a:hover,
+.post-navigation a:focus,
+.post-navigation a:hover,
+.pagination a:not(.prev):not(.next):focus,
+.pagination a:not(.prev):not(.next):hover,
+.comments-pagination a:not(.prev):not(.next):focus,
+.comments-pagination a:not(.prev):not(.next):hover,
+.logged-in-as a:focus,
+.logged-in-as a:hover,
+a:focus .nav-title,
+a:hover .nav-title,
+.edit-link a:focus,
+.edit-link a:hover,
+.site-info a:focus,
+.site-info a:hover,
+.widget .widget-title a:focus,
+.widget .widget-title a:hover,
+.widget ul li a:focus,
+.widget ul li a:hover {
+	color: #A8D8FC!important;
+	-webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0), 0 0 0#A8D8FC!important;
+	box-shadow: inset 0 0 0 rgba(0, 0, 0, 0), 0 0 0#A8D8FC!important;
+}
+
+
+.entry-content a{
+	color: #000C28!important;
+}
+
+.entry-title a,
+.entry-meta a,
+.page-links a,
+.page-links a .page-number,
+.entry-footer a,
+.entry-footer .cat-links a,
+.entry-footer .tags-links a,
+.edit-link a,
+.post-navigation a,
+.logged-in-as a,
+.comment-navigation a,
+.comment-metadata a,
+.comment-metadata a.comment-edit-link,
+.comment-reply-link,
+a .nav-title,
+.pagination a,
+.comments-pagination a,
+.site-info a,
+.widget .widget-title a,
+.widget ul li a,
+.site-footer .widget-area ul li a,
+.site-footer .widget-area ul li a {
+	-webkit-box-shadow: inset 0 0 0 rgba(255, 255, 255, 1)!important;
+	box-shadow: inset 0 0 0 rgba(255, 255, 255, 1)!important;
+	text-decoration: none;
+	-webkit-transition: color 80ms ease-in, -webkit-box-shadow 130ms ease-in-out;
+	transition: color 80ms ease-in, -webkit-box-shadow 130ms ease-in-out;
+	transition: color 80ms ease-in, box-shadow 130ms ease-in-out;
+	transition: color 80ms ease-in, box-shadow 130ms ease-in-out, -webkit-box-shadow 130ms ease-in-out;
+}
+
+.entry-content a,
+.entry-summary a,
+.comment-content a,
+.widget a,
+.site-footer .widget-area a,
+.posts-navigation a,
+.widget_authors a strong {
+	-webkit-box-shadow: inset 0 0 0#000C28!important;
+	box-shadow: inset 0 0 0#000C28!important;
+	-webkit-transition: color 80ms ease-in, -webkit-box-shadow 130ms ease-in-out;
+	transition: color 80ms ease-in, -webkit-box-shadow 130ms ease-in-out;
+	transition: color 80ms ease-in, box-shadow 130ms ease-in-out;
+	transition: color 80ms ease-in, box-shadow 130ms ease-in-out, -webkit-box-shadow 130ms ease-in-out;
+}
+
+button,
+input[type="button"],
+input[type="submit"] {
+	background-color: #A8D8FC!important;
+	border: 0;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 14px;
+	font-size: 0.875rem;
+	font-weight: 800;
+	line-height: 1;
+	padding: 1em 2em;
+	text-shadow: none;
+	-webkit-transition: background 0.2s;
+	transition: background 0.2s;
+}
+#block-7{
+	background-color:#FFF!important;
+	z-index:9999!important;
+}
