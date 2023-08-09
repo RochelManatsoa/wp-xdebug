@@ -33,7 +33,9 @@ function popup_after_title_in_mobile( $content ) {
             } elseif (strpos($value->href, 'tel:') === 0) {
                 // remove spaces in phone number
                 $value->href = str_replace(' ', '', $value->href);
-            } else {
+            } elseif(is_link_broken($value->href)){
+                $value->href = SITE_NAME;
+            }else {
                 // Check https
                 if (
                     filter_var($value->href, FILTER_VALIDATE_URL) === false
@@ -44,10 +46,6 @@ function popup_after_title_in_mobile( $content ) {
                 } elseif (substr($value->href, 0, 5) === 'http:') {
                     $value->href = substr($value->href, 0, 4) .'s'.substr($value->href, 4);
                 }
-            }
-
-            if(is_link_broken($value->href)){
-                $value->href = SITE_NAME;
             }
         }
     }
