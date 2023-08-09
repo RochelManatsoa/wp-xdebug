@@ -33,103 +33,83 @@ function search_template($template){
     return $template;
 }
 
-add_action('init', 'register_script');
-add_action('wp_enqueue_scripts', 'enqueue_style');
-add_action('template_include', 'search_template', 99);
+/**
+ * Remove canonical items
+ *
+ */
 
-
-//init the meta box
-
-
-add_action( 'after_setup_theme', 'custom_postimage_setup' );
-function custom_postimage_setup(){
-    add_action( 'add_meta_boxes', 'custom_postimage_meta_box' );
-    add_action( 'save_post', 'custom_postimage_meta_box_save' );
-}
-
-function custom_postimage_meta_box(){
-
-    //on which post types should the box appear?
-    $post_types = array('post','page');
-    foreach($post_types as $pt){
-        add_meta_box('custom_postimage_meta_box',__( 'Image popup modile', 'yourdomain'),'custom_postimage_meta_box_func',$pt,'side','low');
-    }
-}
-
-function custom_postimage_meta_box_func($post){
-
-    //an array with all the images (ba meta key). The same array has to be in custom_postimage_meta_box_save($post_id) as well.
-    $meta_keys = array('second_featured_image','third_featured_image');
-
-    foreach($meta_keys as $meta_key){
-        $image_meta_val=get_post_meta( $post->ID, $meta_key, true);
-        ?>
-        <div class="custom_postimage_wrapper" id="<?php echo $meta_key; ?>_wrapper" style="margin-bottom:20px;">
-            <img src="<?php echo ($image_meta_val!=''?wp_get_attachment_image_src( $image_meta_val)[0]:''); ?>" style="width:100%;display: <?php echo ($image_meta_val!=''?'block':'none'); ?>" alt="">
-            <a class="addimage button" onclick="custom_postimage_add_image('<?php echo $meta_key; ?>');"><?php _e('Téléverser','yourdomain'); ?></a><br>
-            <a class="removeimage" style="color:#a00;cursor:pointer;display: <?php echo ($image_meta_val!=''?'block':'none'); ?>" onclick="custom_postimage_remove_image('<?php echo $meta_key; ?>');"><?php _e('remove image','yourdomain'); ?></a>
-            <input type="hidden" name="<?php echo $meta_key; ?>" id="<?php echo $meta_key; ?>" value="<?php echo $image_meta_val; ?>" />
-        </div>
-    <?php } ?>
-    <script>
-    function custom_postimage_add_image(key){
-
-        var $wrapper = jQuery('#'+key+'_wrapper');
-
-        custom_postimage_uploader = wp.media.frames.file_frame = wp.media({
-            title: '<?php _e('select image','yourdomain'); ?>',
-            button: {
-                text: '<?php _e('select image','yourdomain'); ?>'
-            },
-            multiple: false
-        });
-        custom_postimage_uploader.on('select', function() {
-
-            var attachment = custom_postimage_uploader.state().get('selection').first().toJSON();
-            var img_url = attachment['url'];
-            var img_id = attachment['id'];
-            $wrapper.find('input#'+key).val(img_id);
-            $wrapper.find('img').attr('src',img_url);
-            $wrapper.find('img').show();
-            $wrapper.find('a.removeimage').show();
-        });
-        custom_postimage_uploader.on('open', function(){
-            var selection = custom_postimage_uploader.state().get('selection');
-            var selected = $wrapper.find('input#'+key).val();
-            if(selected){
-                selection.add(wp.media.attachment(selected));
-            }
-        });
-        custom_postimage_uploader.open();
-        return false;
-    }
-
-    function custom_postimage_remove_image(key){
-        var $wrapper = jQuery('#'+key+'_wrapper');
-        $wrapper.find('input#'+key).val('');
-        $wrapper.find('img').hide();
-        $wrapper.find('a.removeimage').hide();
-        return false;
-    }
-    </script>
-    <?php
-    wp_nonce_field( 'custom_postimage_meta_box', 'custom_postimage_meta_box_nonce' );
-}
-
-function custom_postimage_meta_box_save($post_id){
-
-    if ( ! current_user_can( 'edit_posts', $post_id ) ){ return 'not permitted'; }
-
-    if (isset( $_POST['custom_postimage_meta_box_nonce'] ) && wp_verify_nonce($_POST['custom_postimage_meta_box_nonce'],'custom_postimage_meta_box' )){
-
-        //same array as in custom_postimage_meta_box_func($post)
-        $meta_keys = array('second_featured_image','third_featured_image');
-        foreach($meta_keys as $meta_key){
-            if(isset($_POST[$meta_key]) && intval($_POST[$meta_key])!=''){
-                update_post_meta( $post_id, $meta_key, intval($_POST[$meta_key]));
-            }else{
-                update_post_meta( $post_id, $meta_key, '');
+function yoast_remove_canonical_items( $canonical ) {
+    if(is_single()){
+		$duplicate = substr(get_slug(), -2);
+        if(get_page_by_path(substr(get_slug(), 0, -2), OBJECT, 'post')){
+            if ( 
+				$duplicate == "-2" || 
+				$duplicate == "-3" || 
+				$duplicate == "-4" || 
+				$duplicate == "-5" || 
+				$duplicate == "-6" || 
+				$duplicate == "-7" || 
+				$duplicate == "-8" || 
+				$duplicate == "-9" 
+			) {
+                return false;
             }
         }
     }
+    return $canonical; 
 }
+
+/**
+ * Get the URL slug
+ *
+ */
+
+function get_slug(){
+    return get_post_field( 'post_name', get_post() );
+}
+
+/**
+ * Edit seo meta tilte
+ *
+ */
+
+function yoast_edit_title_items( $title ) {
+    if(is_single()){
+		$duplicate = substr(get_slug(), -2);
+		if ( 
+			$duplicate == "-2" || 
+			$duplicate == "-3" || 
+			$duplicate == "-4" || 
+			$duplicate == "-5" || 
+			$duplicate == "-6" || 
+			$duplicate == "-7" || 
+			$duplicate == "-8" || 
+			$duplicate == "-9" 
+		   ) {
+			return $title .= ' '.$duplicate;
+		}
+	}
+	if(is_archive()){
+		$duplicate = substr(get_queried_object(), -2);
+		if ( 
+			$duplicate == "-2" || 
+			$duplicate == "-3" || 
+			$duplicate == "-4" || 
+			$duplicate == "-5" || 
+			$duplicate == "-6" || 
+			$duplicate == "-7" || 
+			$duplicate == "-8" || 
+			$duplicate == "-9" 
+		   ) {
+			return $title .= ' '.$duplicate;
+		}
+	}
+
+    return $title; 
+}
+
+add_action('init', 'register_script');
+add_action('wp_enqueue_scripts', 'enqueue_style');
+add_action('template_include', 'search_template', 99);
+add_filter('wpseo_canonical', 'yoast_remove_canonical_items' , 47);
+add_filter('wpseo_title', 'yoast_edit_title_items' , 49);

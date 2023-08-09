@@ -61,7 +61,7 @@ get_header(); ?>
                     Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:<?= SITE_NUMBER ?>">
+                    <a href="tel:090488503">
                         <img width="768" height="372" src="https://numero-serviceclient.be/wp-content/uploads/2022/09/bouton-appelez-SMCBE-REMMEDIA-pour-SERVITEL.jpg" alt="Appeler le service" class="wp-image-68" srcset="https://numero-serviceclient.be/wp-content/uploads/2022/10/nouveau-visuel-belgique.jpg 768w, https://numero-serviceclient.be/wp-content/uploads/2022/10/nouveau-visuel-belgique-300x145.jpg 300w" sizes="(max-width: 767px) 89vw, (max-width: 1000px) 54vw, (max-width: 1071px) 543px, 580px">
                     </a>
                 </figure>
