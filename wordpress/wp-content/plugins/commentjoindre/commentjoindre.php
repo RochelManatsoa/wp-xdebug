@@ -2,7 +2,7 @@
 /*
 Plugin Name: commentjoindre.fr
 Description: Plugin qui affiche deux images flottante sur la version mobile du site (requiert les plugins : myStickyMenu, ACF). Ajoute le framework CSS twitter Bootstrap. Corrige les liens externes et mail générant un 404 error et ajoute des balises alt sur tout les image. Ce plugin affiche egalement des polices de google fonts. Ajoute l'attribut rel="canonical" pour les contenus dupliqués.
-Version: 3.6.4
+Version: 3.6.5
 Author: Nirina Rochel
 Author Uri: https://rochel-nirina.welovedevs.com/
 */
@@ -99,6 +99,13 @@ function popup_after_title_in_mobile( $content ) {
             $activer_image_mobile_en_haut = "1";
             $activer_image_mobile_en_bas = "0";
             $second_featured_image = '<img loading="lazy" width="616" height="680" src="https://commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2.jpg" alt="call service" class="wp-image-46417" srcset="https://commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2.jpg 616w, https://commentjoindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENTJOINDRE-V2-272x300.jpg 272w" sizes="(max-width: 616px) 100vw, 616px">';
+			
+            // check if telephone rose post
+            if( get_the_ID() == 22800){
+				$second_featured_image = '<img width="523" height="311" src="https://commentjoindre.fr/wp-content/uploads/2022/11/0895690665.png">';				
+            	$number_click_to_call = "0895690365";
+			}
+
 
             if($second_featured_image !== "" && $activer_image_mobile_en_haut === "1"){
                 $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
