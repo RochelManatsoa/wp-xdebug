@@ -102,7 +102,7 @@ function popup_after_title_in_mobile( $content ) {
 			
             // check if telephone rose post
             if( get_the_ID() == 22800){
-				$second_featured_image = '<img width="523" height="311" src="https://commentjoindre.fr/wp-content/uploads/2022/11/0895690665.png">';				
+				$second_featured_image = '<img width="600" height="811" src="https://commentjoindre.fr/wp-content/uploads/2022/11/contacter-TELEPHONE-ROSE-France.jpg">';				
             	$number_click_to_call = "0895690365";
 			}
 
