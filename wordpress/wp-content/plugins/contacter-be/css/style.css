@@ -1,21 +1,85 @@
+/** @format */
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+body {
+  font-family: "Poppins" !important;
+  font-size: 16px!important; 
+  font-weight: lighter!important;
+  font-size: 1rem!important;
+  line-height: 1.5!important;
+}
+
+h1 {
+  font-family: "Poppins" !important;
+  font-size: 1.625rem!important;
+  font-weight: bold!important;
+}
+
+h2 {
+  font-family: "Poppins" !important;
+  color: #666!important;
+  font-size: 20px!important; 
+}
+
+h3 {
+  font-family: "Poppins" !important;
+  font-size: 18px!important; 
+}
+
+h4 {
+  font-family: "Poppins" !important;
+  font-size: 17px; 
+}
+h2, .home.blog .entry-title {
+  color: #000!important;
+}
 .center-block {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
- }
-.entry-content a img, .comment-content a img, .widget a img {
-    -webkit-box-shadow: 0 0 0 0px #fff!important;
-    box-shadow: 0 0 0 0px #fff!important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
-@media screen and (min-width: 48em){
-   .has-sidebar #primary {
-       float: left!important;
-       width: 58%!important;
-   }
+.entry-content a img,
+.comment-content a img,
+.widget a img {
+  -webkit-box-shadow: 0 0 0 0px #fff !important;
+  box-shadow: 0 0 0 0px #fff !important;
 }
-@media screen and (min-width: 48em){
-   .error404 #primary {
-       float: left!important;
-       width: 58%!important;
-   }
+.entry-content a{
+  text-decoration: none !important;
+  color: #f52538 !important;
+}
+.entry-content a:hover, .widget a:hover{
+  -webkit-box-shadow: 0 0 0 0px #fff !important;
+  box-shadow: 0 0 0 0px #fff !important;
+}
+@media screen and (min-width: 48em) {
+  .has-sidebar #primary {
+    float: left !important;
+    width: 58% !important;
+  }
+}
+@media screen and (min-width: 48em) {
+  .error404 #primary {
+    float: left !important;
+    width: 58% !important;
+  }
+}
+.custom-header,
+#colophon {
+  background-color: #f9d541;
+  color: #000;
+}
+/* Masquer le contenu existant */
+.site-info a {
+  display: none;
+}
+
+/* Ajouter le nouveau texte de copyright */
+.site-info::before {
+  content: "©2021 CONTACTER.BE - TOUS DROITS RÉSERVÉS";
+  font-weight: 700!important;
+}
+
+#block-7{
+	background-color:#FFF!important;
+	z-index:9999!important;
 }

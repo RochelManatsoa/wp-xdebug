@@ -15,98 +15,47 @@ function enqueue_style()
     wp_enqueue_style('pfm_css');
 }
 
-/**
- * Remove canonical items
- */
-
-function yoast_remove_canonical_items($canonical)
-{
+function yoast_remove_canonical_items($canonical) {
+    // Slugs for which canonical should be removed
     $arr = [
-		'contacter-la-gare-dostende', 
-		'contacter-la-gare-de-bruges',
-		'contacter-bpost-de-profondeville-rue-du-village',
-		'contacter-gare-ostende'
-	];
-	// current category slug
-    $currentCat = sanitize_title(single_cat_title('' , false ));
-    $tagsName = [];
-    
-    if(is_category() && $currentCat !== ""){
-		// all tags
-        $allTags = get_tags();
-        foreach($allTags as $tag){
-            $tagsName[] = $tag->slug; 
-        }
-        if(in_array($currentCat, $tagsName)){
+        'contacter-la-gare-dostende',
+        'contacter-la-gare-de-bruges',
+        'contacter-bpost-de-profondeville-rue-du-village',
+        'contacter-gare-ostende'
+    ];
+
+    // Check for category
+    if (is_category()) {
+        $currentCat = sanitize_title(single_cat_title('', false));
+        
+        // Get all tags slugs directly
+        $tagsSlugs = array_map(function($tag) {
+            return $tag->slug;
+        }, get_tags());
+
+        if (in_array($currentCat, $tagsSlugs)) {
             return false;
         }
     }
+
+    // Check for single post
     if (is_single()) {
-		if(in_array(get_slug(), $arr)){
-			return false;
-		}
-        $duplicate = substr(get_slug(), -2);
-        if (get_page_by_path(substr(get_slug(), 0, -2), OBJECT, 'post')) {
-            if (
-                $duplicate == "-2" ||
-                $duplicate == "-3" ||
-                $duplicate == "-4" ||
-                $duplicate == "-5"
-            ) {
-                return false;
-            }
+        $currentSlug = get_post_field('post_name', get_post());
+
+        if (in_array($currentSlug, $arr)) {
+            return false;
+        }
+
+        // Check for duplicates using regex
+        if (preg_match('/-(2|3|4|5)$/', $currentSlug) && get_page_by_path(rtrim($currentSlug, '-2-3-4-5'), OBJECT, 'post')) {
+            return false;
         }
     }
+
     return $canonical;
 }
 
-/**
- * Get the URL slug
- *
- */
 
-function get_slug()
-{
-    return get_post_field('post_name', get_post());
-}
-
-/**
- * Edit seo meta tilte
- *
- */
-
-function yoast_edit_title_items($title)
-{
-    if (is_single()) {
-        $duplicate = substr(get_slug(), -2);
-        if (
-            $duplicate == "-2" ||
-            $duplicate == "-3" ||
-            $duplicate == "-4" ||
-            $duplicate == "-5"
-        ) {
-            return $title .= ' ' . $duplicate;
-        }
-    }
-    if (is_archive()) {
-        $duplicate = substr(get_queried_object()->slug, -2);
-        if (
-            $duplicate == "-2" ||
-            $duplicate == "-3" ||
-            $duplicate == "-4" ||
-            $duplicate == "-5"
-        ) {
-            return $title .= ' ' . $duplicate;
-        }
-    }
-
-    return $title;
-}
-
-/**
- * New search result template
- * Add number result if nothing matched search terms
- */
 function search_template($template)
 {
     if (get_query_var('s') == true || get_query_var('s') != '' || is_404()) {
@@ -114,7 +63,6 @@ function search_template($template)
         if (locate_template($file_name)) {
             $new_template = locate_template($file_name);
         } else {
-            // Template not found in theme's folder, use plugin's template as a fallback
             $new_template = dirname(__FILE__) . '/' . $file_name;
         }
         if ('' != $new_template) {
@@ -125,9 +73,158 @@ function search_template($template)
 }
 
 
+function yoast_edit_title_items($title)
+{
+    return processTitle($title);
+}
 
-add_action('init', 'register_script');
-add_action('wp_enqueue_scripts', 'enqueue_style');
-add_filter('wpseo_canonical', 'yoast_remove_canonical_items', 47);
-add_filter('wpseo_title', 'yoast_edit_title_items', 49);
-add_action('template_include', 'search_template', 99);
+function processTitle($title_tag)
+{
+    if ($title_tag) {
+        $title_length = strlen($title_tag);
+        if ($title_length > 70) { 
+            $title_tag = substr($title_tag, 0, 67) . '...'; 
+        }
+    }
+    
+    return $title_tag;
+}
+
+function popup_after_title_in_mobile($content)
+{
+    $html = new simple_html_dom();
+    $html->load($content);
+
+    processLinks($html);
+    processImages($html);
+
+    if (is_single() && $GLOBALS['post']->ID == get_the_ID()) {
+        $custom_content = addCustomContent(get_the_ID(), $html);
+        return $custom_content;
+    }
+
+    return $html;
+}
+
+function processLinks($html)
+{
+    $links = $html->find('a');
+    if (is_iterable($links)) {
+        foreach ($links as $link) {
+            modify_single_link($link);
+        }
+    }
+}
+
+function modify_single_link($link)
+{
+    setAnchorTextFromDomain($link);
+    if (strpos($link->href, '@')) {
+        handleEmail($link);
+    } elseif (strpos($link->href, '0890211833')) {
+        handlePhoneNumber($link, SITE_NUMBER);
+    } elseif (strpos($link->href, 'https://contacter.be/contacter-primark/')) {
+        handleBrokenLink($link, 'https://contacter.be/contacter-le-service-client-primark-primark-france-mode-maison-beaute-prenez-soin-de-vous/');
+    } else {
+        handleHttps($link);
+    }
+}
+
+function processImages($html)
+{
+    $images = $html->find('img');
+    if (is_single()) {
+        if (isset($images[0]->src)) {
+            $src = $images[0]->src;
+            if (preg_match('/(VISUEL-POPUP-MOBILE-CONTACTER-BE|CONTACTER|popup-flottante)/', $src)) {
+                $images[0]->setAttribute('class', 'd-none d-sm-block');
+            }
+        }
+    }
+
+    if (is_iterable($images)) {
+        foreach ($images as $image) {
+            modify_single_image($image);
+        }
+    }
+}
+
+function modify_single_image($value)
+{
+    if (isset($value->alt) && empty($value->alt)) {
+        $value->alt = 'Image dans ' . SITE_NAME;
+    }
+}
+
+
+function addCustomContent($post_id, $html)
+{
+    $custom_content = '';
+    $activer_image_mobile_en_haut = 1;
+    $activer_image_mobile_en_bas = 1;
+    $number_click_to_call = SITE_NUMBER;
+    $second_featured_image = wp_get_attachment_image(14077, "medium");
+    // $second_featured_image = wp_get_attachment_image(35, "medium");
+    $third_featured_image = wp_get_attachment_image(14103, "medium");
+    // $third_featured_image = wp_get_attachment_image(44, "medium");
+
+        $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
+        $custom_content .= '<div class="textwidget-slide">';
+        $custom_content .= '<figure class="wp-block-image">';
+        $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
+        $custom_content .= $second_featured_image;
+        $custom_content .= '</a>';
+        $custom_content .= '</figure>';
+        $custom_content .= '</div>';
+        $custom_content .= '</div>';
+
+        $custom_content .= '<div id="sticky-footer" class="container-fluid fixed-bottom d-block d-sm-none text-center align-center bg-white shadow">';
+        $custom_content .= '<figure>';
+        $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
+        $custom_content .= $third_featured_image;
+        $custom_content .= '</a>';
+        $custom_content .= '</figure>';
+        $custom_content .= '</div>';
+
+    return $custom_content .= $html;
+}
+
+function handleEmail(&$link)
+{
+    if (substr($link->href, 0, 7) !== "mailto:") {
+        $link->href = 'mailto:' . $link->href;
+    }
+}
+
+function handlePhoneNumber(&$link, $siteNumber)
+{
+    $link->href = 'tel:' . $siteNumber;
+}
+
+function handleBrokenLink(&$link, $unBroken)
+{
+    $link->href = $unBroken;
+}
+
+function handleHttps(&$link)
+{
+    if (substr($link->href, 0, 3) === "www") {
+        $link->href = 'https://' . $link->href;
+    } elseif (substr($link->href, 0, 5) === "http:") {
+        $link->href = substr($link->href, 0, 4) . 's' . substr($link->href, 4);
+    }
+}
+
+function setAnchorTextFromDomain(&$link)
+{
+    if (trim($link->innertext) === trim($link->href)) {
+        $url = $link->href;
+        $parsed_url = parse_url($url);
+        $link->innertext = $parsed_url['host'] ?? 'Lien';
+    }
+}
+
+function custom_header_metadata()
+{
+  echo ' <meta name="robots" content="max-image-preview:large" />';
+}

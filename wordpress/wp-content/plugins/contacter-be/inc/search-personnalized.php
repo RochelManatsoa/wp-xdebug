@@ -61,8 +61,8 @@ get_header(); ?>
                     Nous ne trouvons pas de résultat à votre recherche dans notre base. Vous pouvez faire appel à un conseiller qui fera votre recherche manuellement et pourra vous mettre en relation au besoin.
                 </p>
                 <figure class="wp-block-image size-full">
-                    <a href="tel:090488503">
-                        <img width="524" height="524" alt="Image dans suivremacommande.fr" class="alignnone size-full lazyloaded" src="https://contacter.be/wp-content/uploads/2022/11/090488503-pourCONTACTERBE.jpg">
+                    <a href="tel:<?php echo SITE_NUMBER; ?>">
+                        <?php echo wp_get_attachment_image(14103, "full"); ?>
                     </a>
                 </figure>
             <?php
