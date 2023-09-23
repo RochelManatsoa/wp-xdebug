@@ -13,148 +13,55 @@ function enqueue_style(){
     wp_enqueue_style( 'pfm_css' );
 }
 
-/**
- * Remove canonical items
- *
- */
+function yoast_edit_title_items($title)
+{
+    return processTitle($title);
+}
 
-function yoast_remove_canonical_items( $canonical ) {
-    if(is_single()){
-		$duplicate = substr(get_slug(), -3);
-		$duplicate = substr($duplicate, strpos($duplicate, "-"));
-        if(get_page_by_path(substr(get_slug(), 0, - strlen($duplicate)), OBJECT, 'post')){
-            if ( 
-				$duplicate == "-2" || 
-				$duplicate == "-3" || 
-				$duplicate == "-4" || 
-				$duplicate == "-5" || 
-				$duplicate == "-6" || 
-				$duplicate == "-7" || 
-				$duplicate == "-8" || 
-				$duplicate == "-9" || 
-				$duplicate == "-10" || 
-				$duplicate == "-11" || 
-				$duplicate == "-12" || 
-				$duplicate == "-13" || 
-				$duplicate == "-14" || 
-				$duplicate == "-15"
-			) {
-                return false;
-            }
+function processTitle($title_tag)
+{
+    global $post;
+    $post_data = get_post($post);
+    
+    // Si le titre est vide ou null, générer un titre par défaut basé sur l'article
+    if (empty($title_tag)) {
+        if (!$post_data) {
+            return "Article sur ". SITE_NAME;
+        }
+        // Utiliser le titre du post comme titre par défaut
+        return $post_data->post_title;
+    }
+
+    // Sinon, vérifier la longueur du titre et le tronquer si nécessaire
+    $title_length = strlen($title_tag);
+    if ($title_length > 70) { 
+        $title_tag = substr($title_tag, 0, 67) . '...'; 
+    }
+    
+    return $title_tag;
+}
+
+function yoast_edit_metadesc($metadesc) 
+{
+    global $post;
+    if (is_single()) {
+        // Verifiez si l'URL contient un code postal à la fin.
+        if (preg_match('/\d{5}$/', $post->post_name, $matches)) {
+            // Extrait le code postal du slug.
+            $postal_code = $matches[0];
+            // Génère une nouvelle description Meta unique basée sur le code postal.
+            $metadesc = "Information sur comment contacter le commissariat de police de " . $postal_code;
         }
     }
-    return $canonical; 
-}
-
-/**
- * Get the URL slug
- *
- */
-
-function get_slug(){
-    return get_post_field( 'post_name', get_post() );
-}
-
-/**
- * Edit seo meta tilte
- *
- */
-
-function yoast_edit_title_items( $title ) {
-    if(is_single()){
-		$duplicate = substr(get_slug(), -3);
-		$duplicate = substr($duplicate, strpos($duplicate, "-"));
-		if ( 
-			$duplicate == "-2" || 
-			$duplicate == "-3" || 
-			$duplicate == "-4" || 
-			$duplicate == "-5" || 
-			$duplicate == "-6" || 
-			$duplicate == "-7" || 
-			$duplicate == "-8" || 
-			$duplicate == "-9" || 
-			$duplicate == "-10" || 
-			$duplicate == "-11" || 
-			$duplicate == "-12" || 
-			$duplicate == "-13" || 
-			$duplicate == "-14" || 
-			$duplicate == "-15"
-		   ) {
-			return $title .=  ' (' . substr($duplicate, 1) . ')';
-		}
-	}
-	if(is_archive() && get_queried_object()){
-		$duplicate = substr(get_queried_object()->slug, -2);
-		if ( 
-			$duplicate == "-2" || 
-			$duplicate == "-3" || 
-			$duplicate == "-4" || 
-			$duplicate == "-5" || 
-			$duplicate == "-6" || 
-			$duplicate == "-7" || 
-			$duplicate == "-8" || 
-			$duplicate == "-9" 
-		   ) {
-			return $title .=  ' (' . substr($duplicate, 1) . ')';
-		}
-	}
-
-    return $title; 
-}
-
-
-/**
- * Edit seo meta description
- *
- */
-
- function yoast_edit_desc_items( $desc ) {
-    if(is_single()){
-		$duplicate = substr(get_slug(), -3);
-		$duplicate = substr($duplicate, strpos($duplicate, "-"));
-		if ( 
-			$duplicate == "-2" || 
-			$duplicate == "-3" || 
-			$duplicate == "-4" || 
-			$duplicate == "-5" || 
-			$duplicate == "-6" || 
-			$duplicate == "-7" || 
-			$duplicate == "-8" || 
-			$duplicate == "-9" || 
-			$duplicate == "-10" || 
-			$duplicate == "-11" || 
-			$duplicate == "-12" || 
-			$duplicate == "-13" || 
-			$duplicate == "-14" || 
-			$duplicate == "-15"
-		   ) {
-			return $desc .=  ' (' . substr($duplicate, 1) . ')';
-		}
-	}
-	if(is_archive() && get_queried_object()){
-		$duplicate = substr(get_queried_object()->slug, -2);
-		if ( 
-			$duplicate == "-2" || 
-			$duplicate == "-3" || 
-			$duplicate == "-4" || 
-			$duplicate == "-5" || 
-			$duplicate == "-6" || 
-			$duplicate == "-7" || 
-			$duplicate == "-8" || 
-			$duplicate == "-9" 
-		   ) {
-			return $desc .=  ' (' . substr($duplicate, 1) . ')';
-		}
-	}
-
-    return $desc; 
+    return $metadesc;
 }
 
 /**
  * New search result template
  * Add number result if nothing matched search terms
  */
-function search_template($template){
+function search_template($template)
+{
     if ( get_query_var('s') == true || get_query_var('s') != '' || is_404()) {
         $file_name = 'search-personnalized.php';
         if ( locate_template( $file_name ) ) {
@@ -170,113 +77,235 @@ function search_template($template){
     return $template;
 }
 
-add_action('template_include', 'search_template', 99);
-add_action('init', 'register_script');
-add_action('wp_enqueue_scripts', 'enqueue_style');
-add_filter('wpseo_canonical', 'yoast_remove_canonical_items' , 47);
-add_filter('wpseo_metadesc', 'yoast_edit_desc_items', 59);
-add_filter('wpseo_title', 'yoast_edit_title_items' , 49);
 
-//init the meta box
-add_action('after_setup_theme', 'custom_postimage_setup');
-
-
-function custom_postimage_setup()
+function popup_after_title_in_mobile($content) 
 {
-    add_action('add_meta_boxes', 'custom_postimage_meta_box');
-    add_action('save_post', 'custom_postimage_meta_box_save');
-}
-
-function custom_postimage_meta_box()
-{
-
-    //on which post types should the box appear?
-    $post_types = array('post', 'page');
-    foreach ($post_types as $pt) {
-        add_meta_box('custom_postimage_meta_box', __('Image popup mobile', 'yourdomain'), 'custom_postimage_meta_box_func', $pt, 'side', 'low');
+    if (!is_single() && !is_archive()) {
+        return $content;
     }
-}
 
-function custom_postimage_meta_box_func($post)
-{
+    $html = new simple_html_dom();
+    $html->load($content);
 
-    //an array with all the images (ba meta key). The same array has to be in custom_postimage_meta_box_save($post_id) as well.
-    $meta_keys = array('second_featured_image', 'third_featured_image');
+    processLinks($html);
+    processImages($html);
+    
+    // Traitement du contenu pour les articles individuels
+    if (is_single() && !empty($GLOBALS['post'])) {
+        $categories = get_the_category(get_the_ID());
+        $custom_content = '';
+        $backlinks = '';            
+        $second_featured_image = '';
+        $third_featured_image = '';
+        $activer_image_mobile_en_bas = '';
+        $number_click_to_call = SITE_NUMBER;
 
-    foreach ($meta_keys as $meta_key) {
-        $image_meta_val = get_post_meta($post->ID, $meta_key, true);
-?>
-        <div class="custom_postimage_wrapper" id="<?php echo $meta_key; ?>_wrapper" style="margin-bottom:20px;">
-            <img src="<?php echo ($image_meta_val != '' ? wp_get_attachment_image_src($image_meta_val)[0] : ''); ?>" style="width:100%;display: <?php echo ($image_meta_val != '' ? 'block' : 'none'); ?>" alt="">
-            <a class="addimage button" onclick="custom_postimage_add_image('<?php echo $meta_key; ?>');"><?php _e('Téléverser', 'yourdomain'); ?></a><br>
-            <a class="removeimage" style="color:#a00;cursor:pointer;display: <?php echo ($image_meta_val != '' ? 'block' : 'none'); ?>" onclick="custom_postimage_remove_image('<?php echo $meta_key; ?>');"><?php _e('Effacer image', 'yourdomain'); ?></a>
-            <input type="hidden" name="<?php echo $meta_key; ?>" id="<?php echo $meta_key; ?>" value="<?php echo $image_meta_val; ?>" />
-        </div>
-    <?php
-    }
-    ?>
-    <script>
-        function custom_postimage_add_image(key) {
-
-            var $wrapper = jQuery('#' + key + '_wrapper');
-
-            custom_postimage_uploader = wp.media.frames.file_frame = wp.media({
-                title: '<?php _e('select image', 'yourdomain'); ?>',
-                button: {
-                    text: '<?php _e('select image', 'yourdomain'); ?>'
-                },
-                multiple: false
-            });
-            custom_postimage_uploader.on('select', function() {
-
-                var attachment = custom_postimage_uploader.state().get('selection').first().toJSON();
-                var img_url = attachment['url'];
-                var img_id = attachment['id'];
-                $wrapper.find('input#' + key).val(img_id);
-                $wrapper.find('img').attr('src', img_url);
-                $wrapper.find('img').show();
-                $wrapper.find('a.removeimage').show();
-            });
-            custom_postimage_uploader.on('open', function() {
-                var selection = custom_postimage_uploader.state().get('selection');
-                var selected = $wrapper.find('input#' + key).val();
-                if (selected) {
-                    selection.add(wp.media.attachment(selected));
-                }
-            });
-            custom_postimage_uploader.open();
-            return false;
+        $activer_image_mobile_en_haut = "1";
+        $activer_image_mobile_en_bas = "0";
+        $second_featured_image = wp_get_attachment_image(134047, "medium");
+        if( get_the_ID() == 53292){
+            $second_featured_image = wp_get_attachment_image(137492, "medium");
+            $number_click_to_call = "0895690365";
         }
 
-        function custom_postimage_remove_image(key) {
-            var $wrapper = jQuery('#' + key + '_wrapper');
-            $wrapper.find('input#' + key).val('');
-            $wrapper.find('img').hide();
-            $wrapper.find('a.removeimage').hide();
-            return false;
+        if($activer_image_mobile_en_haut === "1"){
+            $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
+            $custom_content .= '<div class="textwidget-slide">';
+            $custom_content .= '<figure class="wp-block-image">';
+            $custom_content .= '<a href="tel:'.$number_click_to_call.'">';
+            $custom_content .= $second_featured_image;
+            $custom_content .= '</a>';
+            $custom_content .= '</figure>';
+            $custom_content .= '</div>';
+            $custom_content .= '</div>';
         }
-    </script>
-<?php
-    wp_nonce_field('custom_postimage_meta_box', 'custom_postimage_meta_box_nonce');
-}
 
-function custom_postimage_meta_box_save($post_id)
-{
+        if($activer_image_mobile_en_bas === "1"){
+            $custom_content .= '<div class="container-fluid fixed-bottom d-block d-sm-none text-center align-center ">';
+            $custom_content .= '<figure>';
+            $custom_content .= '<a href="tel:'.$number_click_to_call.'">';
+            $custom_content .= $third_featured_image;
+            $custom_content .= '</a>';
+            $custom_content .= '</figure>';
+            $custom_content .= '</div>';
+        }
 
-    if (!current_user_can('edit_posts', $post_id)) {
-        return 'not permitted';
+        foreach ($categories as $cd) {
+            if ($cd->category_nicename == 'gare') {
+                $activer_image_mobile_en_haut = "0";
+                $activer_image_mobile_en_bas = "0";
+                $second_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/sncf.jpg', __FILE__).'" alt="call service" width="275" height="277" />';
+                $backlinks .= '<div class="good-deal">';
+                    $backlinks .= 'Liens utiles:';
+                    $backlinks .= ' <a href="https://www.thetrainline.com/fr" title="Tous vos billets de train et de bus, au même endroit" target=_blank>Trainline</a>';
+                    $backlinks .= ' | <a href="https://garedefrance.fr" title="Annuaire des GARES SNCF en France" target=_blank>Gare de France</a>';
+                    $backlinks .= ' | <a href="https://garebelgique.be" title="Annuaire des GARES en Belgique" target=_blank>Gare de Belgique</a>';
+                $backlinks .= '</div>';
+                $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="47"/>';
+            }
+            if ($cd->category_nicename == 'gare-sncf') {
+                $activer_image_mobile_en_haut = "0";
+                $activer_image_mobile_en_bas = "0";
+                $second_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/sncf.jpg', __FILE__).'" alt="call service" width="275" height="277" />';
+                $third_featured_image = '<img class="alignnone size-full lazyloaded" src="'.plugins_url('img/cartouche-sncf.png', __FILE__).'" alt="cartouche" width="350" height="47"/>';
+            }
+
+        // echo '<pre>';
+        // echo var_dump($cd->category_nicename);
+        // echo '</pre>';
+        }
+
+        $custom_content .= $html;
+
+        // links for seo
+        $custom_content .= $backlinks;
+
+        return $custom_content;
     }
 
-    if (isset($_POST['custom_postimage_meta_box_nonce']) && wp_verify_nonce($_POST['custom_postimage_meta_box_nonce'], 'custom_postimage_meta_box')) {
+    return $html;
+}
 
-        //same array as in custom_postimage_meta_box_func($post)
-        $meta_keys = array('second_featured_image', 'third_featured_image');
-        foreach ($meta_keys as $meta_key) {
-            if (isset($_POST[$meta_key]) && intval($_POST[$meta_key]) != '') {
-                update_post_meta($post_id, $meta_key, intval($_POST[$meta_key]));
-            } else {
-                update_post_meta($post_id, $meta_key, '');
+
+function processLinks($html)
+{
+    $links = $html->find('a');
+    if (is_iterable($links)) {
+        foreach ($links as $link) {
+            modify_single_link($link);
+        }
+    }
+}
+
+function modify_single_link($link)
+{
+    if (strpos($link->href, '@')) {
+        handleEmail($link);
+    } elseif (strpos($link->href, '0890211833')) {
+        handlePhoneNumber($link, SITE_NUMBER);
+    } else {
+        handleHttps($link);
+    }
+}
+
+function handleEmail(&$link)
+{
+    if (substr($link->href, 0, 7) !== "mailto:") {
+        $link->href = 'mailto:' . $link->href;
+    }
+}
+
+function handlePhoneNumber(&$link, $siteNumber)
+{
+    $link->href = 'tel:' . $siteNumber;
+}
+
+function handleBrokenLink(&$link, $unBroken)
+{
+    $link->href = $unBroken;
+}
+
+function handleHttps(&$link)
+{
+    if (substr($link->href, 0, 3) === "www") {
+        $link->href = 'https://' . $link->href;
+    } elseif (substr($link->href, 0, 5) === "http:") {
+        $link->href = substr($link->href, 0, 4) . 's' . substr($link->href, 4);
+    }
+}
+function replaceSrc(&$value, $newSrc) 
+{
+    $value->src = $newSrc;
+    if (isset($value->srcset)) {
+        // Suppression de '.jpg' de $newSrc
+        $newSrc = str_replace('.jpg', '', $newSrc);
+        // Remplacement de l'URL originale dans srcset par $newSrc
+        $value->setAttribute('srcset', preg_replace('/https?:\/\/[^ ]+/', $newSrc . '.jpg', $value->srcset));
+    }
+}
+
+function setClassIfMatching(&$value, $string, $class) 
+{
+    if (strpos($value->src, $string) !== false) {
+        $value->setAttribute('class', $class);
+    }
+}
+
+function processImages($html)
+{
+    $newSrc = 'https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg';
+
+    $patterns = [
+        '2021/11/COMMENT-CONTACTER', '2023/06/COMMENT-CONTACTER-',
+        '2023/02/le-numero', '2023/01/visuel', '2023/03/VISUEL-', 
+        '2023/02/0890211805-BOUTON-APPEL', '2021/10/visuel-gare-CJ', 
+        '2023/02/information', '2022/12/0890211805', 
+        '2023/02/assistance-generaliste', '2023/05/assistance-par-telephone-service-client'
+    ];
+
+    if (isset($html->find('img')[0]->src)) {
+        $html->find('img')[0]->setAttribute('class', 'd-none d-sm-block');
+    }
+
+    foreach ($html->find('img') as $value) {
+        foreach ($patterns as $pattern) {
+            if (strpos($value->src, $pattern) !== false) {
+                replaceSrc($value, $newSrc);
+                break;
             }
         }
+    
+        if (strpos($value->src, 'bouton_APPELER_COMMENT-JOINDRE') !== false) {
+            replaceSrc($value, $newSrc);
+            setClassIfMatching($value, 'bouton_APPELER_COMMENT-JOINDRE', 'd-none d-sm-block');
+        }
+    
+        setClassIfMatching($value, 'image', 'd-none d-sm-block');
+    
+        if (empty($value->alt)) {
+            $value->alt = SITE_NAME;
+        }
     }
 }
+
+
+function is_potential_duplicate() {
+    global $post;
+    $slug = $post->post_name;
+    // Vérifiez si le slug contient '-contacter-la-gare-de-' ou se termine par '-2', '-3', etc.
+    return (bool) preg_match('/-contacter-la-gare-de-|-\d+$/', $slug);
+}
+
+function get_base_slug() {
+    global $post, $wpdb;
+    $slug = $post->post_name;
+    
+    // Enlevez '-contacter-la-gare-de-' et/ou '-2', '-3', etc. du slug
+    $base_slug = preg_replace(['/(-contacter-la-gare-de-)|(-\d+$)/'], '', $slug);
+    
+    // Vérifiez si un post avec ce slug existe
+    $post_id = $wpdb->get_var(
+        $wpdb->prepare(
+            "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_status = 'publish'",
+            $base_slug
+        )
+    );
+    
+    if ($post_id) {
+        return $base_slug;
+    } else {
+        return null;
+    }
+}
+
+function add_custom_canonical() {
+    if (is_potential_duplicate()) {
+        $base_slug = get_base_slug();
+        if ($base_slug !== null) {
+            $canonical_url = home_url("/$base_slug/");
+            echo '<link rel="canonical" href="' . esc_url($canonical_url) . '" />' . "\n";
+        }
+    }
+}
+
+
