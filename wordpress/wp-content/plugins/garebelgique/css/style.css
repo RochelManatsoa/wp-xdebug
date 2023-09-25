@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost&family=PT+Sans&display=swap');
+body {
+	font-family: 'Jost'!important;
+}
+
+h1, h2, h3 {
+	font-family: 'PT Sans'!important;
+}
+
+button, input {
+	font-family: 'PT Sans'!important;
+}
+
+.site-info{
+	display: none;
+}
+
+.entry-content a,
+.entry-content a img,
+.comment-content a img,
+.widget a img {
+	-webkit-box-shadow: 0 0 0 0px #fff !important;
+	box-shadow: 0 0 0 0px #fff !important;
+}
+
+.entry-content a {
+    color: #EF4135!important;
+}
+.entry-content a:hover {
+	-webkit-box-shadow: 0 0 0 0px #EF4135 !important;
+	box-shadow: 0 0 0 0px #EF4135 !important;
+}
+button, input[type="button"], input[type="submit"] {
+    background-color: #000!important;
+    border: 0;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #FDDA24!important;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-size: 0.875rem;
+    font-weight: 800;
+    line-height: 1;
+    padding: 1em 2em;
+    text-shadow: none;
+    -webkit-transition: background 0.2s;
+    transition: background 0.2s;
+}
+.main-navigation, .navigation-top{
+    background-color: #FDDA24!important;
+}
+@media (max-width: 767px) {
+    .main-navigation, .navigation-top {
+        background-color: #000000 !important;
+    }
+}
+.site-title{
+    -webkit-text-shadow: 0px 1px 3px #000!important;
+    text-shadow: 0px 1px 3px #000!important;
+}
+#top-menu{
+    font-size: large!important;
+    font-weight: 700!important;
+}
+.navigation-top .current-menu-item > a, .navigation-top .current_page_item > a, .main-navigation a:hover {
+    color: #EF4135!important;
+}
+#colophon{
+	color: black;
+    font-weight: bold!important;
+	text-align: center!important;
+    background-color: #EF4135!important;
+}
+#colophon .wrap::after{
+	content: '©2022 garebelgique.be - Tous droits réservés';
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.faa-pulse.animated {
+    animation: pulse 1s infinite ease-in-out;
+}
+.text-gray-500 {
+    color: #6b7280;
+}
+.icon-image-container {
+    position: relative;
+}
+
+.icon-image-container img {
+    display: block;
+}
+
+.icon-image-container i {
+    position: absolute;
+    font-size: 30px!important;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;  
+}
