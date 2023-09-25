@@ -197,3 +197,38 @@ input[type="submit"] {
 	background-color:#FFF!important;
 	z-index:9999!important;
 }
+
+.faa-pulse.animated {
+    animation: pulse 1s infinite ease-in-out;
+}
+.text-gray-500 {
+    color: #6b7280;
+}
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.icon-image-container {
+    position: relative;
+}
+
+.icon-image-container img {
+    display: block;
+}
+
+.icon-image-container i {
+    position: absolute;
+	color:#EF4135;
+    font-size: 30px!important;
+    top: 22%;
+    left: 46%;
+    transform: translate(-50%, -50%);
+    z-index: 2;  
+}
