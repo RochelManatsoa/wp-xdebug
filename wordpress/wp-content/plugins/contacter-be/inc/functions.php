@@ -8,11 +8,11 @@ function register_script()
 
 function enqueue_style()
 {
+    wp_enqueue_script('pfm_js');
+    wp_enqueue_style('pfm_css');
     wp_enqueue_script('bootstrap_jquery_js', 'https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js');
     wp_enqueue_script('bootstrap_js', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js');
     wp_enqueue_style('bootstrap_css', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css', false, '4.6.1', 'all');
-    wp_enqueue_script('pfm_js');
-    wp_enqueue_style('pfm_css');
 }
 
 function yoast_remove_canonical_items($canonical) {
@@ -167,6 +167,11 @@ function addCustomContent($post_id, $html)
     // $second_featured_image = wp_get_attachment_image(35, "medium");
     $third_featured_image = wp_get_attachment_image(14103, "medium");
     // $third_featured_image = wp_get_attachment_image(44, "medium");
+        if( get_the_ID() == 2772){
+            $second_featured_image = wp_get_attachment_image(10604, "medium");
+            $third_featured_image = wp_get_attachment_image(16413, "medium");
+            $number_click_to_call = "090488504";
+        }
 
         $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
         $custom_content .= '<div class="textwidget-slide">';
