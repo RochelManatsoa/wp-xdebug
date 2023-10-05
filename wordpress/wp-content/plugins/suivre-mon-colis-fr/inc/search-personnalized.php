@@ -62,7 +62,7 @@ get_header(); ?>
                 </p>
                 <figure class="wp-block-image size-full">
                     <a href="tel:<?= SITE_NUMBER ?>">
-                        <img src="https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg" alt="bouton appeler" data-recalc-dims="1">
+                        <?= wp_get_attachment_image(2404, "full") ?>
                     </a>
                 </figure>
             <?php

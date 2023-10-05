@@ -1,17 +1,27 @@
+@@ -1,23 +1,25 @@
 # ignore db volumes
 db/*
 schema/*
-
 # ignore everything in "wordpress" directory except the "wp-content" directory.
 wordpress/*
 wordpress/wp-content/languages/*
 wordpress/wp-content/upgrade/*
 wordpress/wp-content/uploads/*
 wordpress/wp-content/fonts/*
+wordpress/wp-content/themes/servicer/*
 wordpress/wp-content/themes/twentytwentyone/*
 wordpress/wp-content/themes/twentytwentytwo/*
 wordpress/wp-content/themes/twentytwentythree/*
-wordpress/wp-content/plugins/suivremacommande/*
+wordpress/wp-content/themes/twentytwentytwo/*
+wordpress/wp-content/plugins/suivre-mon-colis-fr/*
+wordpress/wp-content/plugins/fakerpress/*
+wordpress/wp-content/plugins/query-monitor/
+wordpress/wp-content/plugins/mystickymenu/
+wordpress/wp-content/plugins/wordpress-seo/*
+wordpress/wp-content/plugins/advanced-custom-fields/*
+wordpress/wp-content/plugins/show-current-template/*
+wordpress/wp-content/debug.log
+wordpress/wp-content/themes/contacter-be/
 !wp-content/
 
 # ignore everything in the "wp-content" directory, except:
@@ -20,8 +30,3 @@ wp-content/*
 wp-content/plugins/wordpress-seo/*
 !wp-content/plugins/
 !wp-content/themes/
-
-# ignore log files and databases
-*.log
-*.sql
-*.sqlite

@@ -2,7 +2,7 @@
 /*
 Plugin Name: suivre-mon-colis.fr
 Description: Plugin qui affiche un popup flottante sur la version mobile du site (requiert le plugin myStickyMenu), corrige les liens externes et mail générant un 404 error, ajoute des balises alt sur tout les images et filtre les urls dans le sitemap
-Version: 2.2.8
+Version: 2.2.9
 Author: Nirina Rochel
 Author URI: https://welovedevs.com/app/fr/developer/rochel-la-ou-se-trouve-une-volonte-il-existe-un-chemin
 */
@@ -16,7 +16,7 @@ define('PFM_PATH', plugin_dir_path(__FILE__));
 require_once(PFM_PATH . "/inc/functions.php");
 require_once(PFM_PATH . "/inc/simple_html_dom.php");
 define('SITE_NAME', "suivre-mon-colis.fr");
-define('SITE_NUMBER', "0893033341");
+define('SITE_NUMBER', "0890214950");
 
 function popup_after_title_in_mobile($content)
 {
@@ -57,12 +57,14 @@ function popup_after_title_in_mobile($content)
             }
             if (
                 strpos($value->src, '/2023/01/cartouche') || 
+                strpos($value->src, '2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR') || 
                 strpos($value->src, '/2020/04/bouton') ||
                 strpos($value->src, '/2022/03/bouton') ||
                 strpos($value->src, '/2023/04/faire') ||
                 strpos($value->src, '/2023/03/CFUR')
             ) {
-                $value->src ='https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg';
+                //$value->src ='https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg';
+                $value->src ='https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/10/NOUVEAU-VISUEL-0890214950-pourSMC.webp';
                 if(isset($value->srcset)){
                     $value->srcset = null;
                     // $position = strpos($value->srcset, '.jpg');
@@ -103,7 +105,7 @@ function popup_after_title_in_mobile($content)
         
         $activer_image_mobile_en_haut = "1";
         $activer_image_mobile_en_bas = "0";
-        $second_featured_image = '<img decoding="async" loading="lazy" width="616" height="680" src="https://suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg" alt="call service" class="wp-image-2352" srcset="https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg?w=616&amp;ssl=1 616w, https://i0.wp.com/suivre-mon-colis.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-SUIVRE-MA-COMMANDE-FR-et-SUIVRE-MON-COLIS-FR.jpg?resize=272%2C300&amp;ssl=1 272w" sizes="(max-width: 616px) 100vw, 616px">';
+    	$second_featured_image = wp_get_attachment_image(2404, "medium");
 
         if($second_featured_image !== "" && $activer_image_mobile_en_haut === "1"){
             $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
