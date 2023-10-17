@@ -160,36 +160,31 @@ function modify_single_image($value)
 function addCustomContent($post_id, $html)
 {
     $custom_content = '';
-    $activer_image_mobile_en_haut = 1;
-    $activer_image_mobile_en_bas = 1;
     $number_click_to_call = SITE_NUMBER;
-    $second_featured_image = wp_get_attachment_image(14077, "medium");
-    // $second_featured_image = wp_get_attachment_image(35, "medium");
-    $third_featured_image = wp_get_attachment_image(14103, "medium");
-    // $third_featured_image = wp_get_attachment_image(44, "medium");
-        if( get_the_ID() == 2772){
-            $second_featured_image = wp_get_attachment_image(10604, "medium");
-            $third_featured_image = wp_get_attachment_image(16413, "medium");
-            $number_click_to_call = "090488504";
-        }
+    $second_featured_image = wp_get_attachment_image(SITE_VISUEL_ITEM, "medium");
 
-        $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
-        $custom_content .= '<div class="textwidget-slide">';
-        $custom_content .= '<figure class="wp-block-image">';
-        $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
-        $custom_content .= $second_featured_image;
-        $custom_content .= '</a>';
-        $custom_content .= '</figure>';
-        $custom_content .= '</div>';
-        $custom_content .= '</div>';
+    if( get_the_ID() == 2772){
+        $second_featured_image = wp_get_attachment_image(10604, "medium");
+        $number_click_to_call = "090488504";
+    }
 
-        $custom_content .= '<div id="sticky-footer" class="container-fluid fixed-bottom d-block d-sm-none text-center align-center bg-white shadow">';
-        $custom_content .= '<figure>';
-        $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
-        $custom_content .= $third_featured_image;
-        $custom_content .= '</a>';
-        $custom_content .= '</figure>';
-        $custom_content .= '</div>';
+    $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center py-3 bg-white shadow">';
+    $custom_content .= '<div class="textwidget-slide">';
+    $custom_content .= '<figure class="wp-block-image">';
+    $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
+    $custom_content .= $second_featured_image;
+    $custom_content .= '</a>';
+    $custom_content .= '</figure>';
+    $custom_content .= '</div>';
+    $custom_content .= '</div>';
+
+        // $custom_content .= '<div id="sticky-footer" class="container-fluid fixed-bottom d-block d-sm-none text-center align-center bg-white shadow">';
+        // $custom_content .= '<figure>';
+        // $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
+        // $custom_content .= $third_featured_image;
+        // $custom_content .= '</a>';
+        // $custom_content .= '</figure>';
+        // $custom_content .= '</div>';
 
     return $custom_content .= $html;
 }

@@ -62,7 +62,7 @@ get_header(); ?>
                 </p>
                 <figure class="wp-block-image size-full">
                     <a href="tel:<?php echo SITE_NUMBER; ?>">
-                        <?php echo wp_get_attachment_image(14103, "full"); ?>
+                        <?php echo wp_get_attachment_image(SITE_VISUEL_ITEM, "full"); ?>
                     </a>
                 </figure>
             <?php
