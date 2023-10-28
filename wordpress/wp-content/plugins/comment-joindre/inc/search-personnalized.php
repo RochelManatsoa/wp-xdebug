@@ -62,7 +62,7 @@ get_header(); ?>
                 </p>
                 <figure class="wp-block-image size-full">
                     <a href="tel:<?= SITE_NUMBER ?>">
-                    <img decoding="async" width="525" height="580" src="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=525%2C580&amp;ssl=1" data-src="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=525%2C580&amp;ssl=1" alt="commentjoindre.fr" class="d-none d-sm-block lazyloaded" data-srcset="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?w=616&amp;ssl=1 616w, https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=272%2C300&amp;ssl=1 272w" data-sizes="(max-width: 525px) 100vw, 525px" data-recalc-dims="1" sizes="(max-width: 525px) 100vw, 525px" srcset="https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?w=616&amp;ssl=1 616w, https://i0.wp.com/comment-joindre.fr/wp-content/uploads/2023/06/NOUVEAU-VISUEL-COMMENT-JOINDRE.jpg?resize=272%2C300&amp;ssl=1 272w">
+                        <?php echo wp_get_attachment_image(SITE_VISUEL_ITEM, "full"); ?>
                     </a>
                 </figure>
             <?php

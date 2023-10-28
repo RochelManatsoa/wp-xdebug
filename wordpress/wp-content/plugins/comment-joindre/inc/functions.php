@@ -13,49 +13,6 @@ function enqueue_style(){
     wp_enqueue_style( 'pfm_css' );
 }
 
-function yoast_edit_title_items($title)
-{
-    return processTitle($title);
-}
-
-function processTitle($title_tag)
-{
-    global $post;
-    $post_data = get_post($post);
-    
-    // Si le titre est vide ou null, générer un titre par défaut basé sur l'article
-    if (empty($title_tag)) {
-        if (!$post_data) {
-            return "Article sur ". SITE_NAME;
-        }
-        // Utiliser le titre du post comme titre par défaut
-        return $post_data->post_title;
-    }
-
-    // Sinon, vérifier la longueur du titre et le tronquer si nécessaire
-    $title_length = strlen($title_tag);
-    if ($title_length > 70) { 
-        $title_tag = substr($title_tag, 0, 67) . '...'; 
-    }
-    
-    return $title_tag;
-}
-
-function yoast_edit_metadesc($metadesc) 
-{
-    global $post;
-    if (is_single()) {
-        // Verifiez si l'URL contient un code postal à la fin.
-        if (preg_match('/\d{5}$/', $post->post_name, $matches)) {
-            // Extrait le code postal du slug.
-            $postal_code = $matches[0];
-            // Génère une nouvelle description Meta unique basée sur le code postal.
-            $metadesc = "Information sur comment contacter le commissariat de police de " . $postal_code;
-        }
-    }
-    return $metadesc;
-}
-
 /**
  * New search result template
  * Add number result if nothing matched search terms
@@ -102,7 +59,7 @@ function popup_after_title_in_mobile($content)
 
         $activer_image_mobile_en_haut = "1";
         $activer_image_mobile_en_bas = "0";
-        $second_featured_image = wp_get_attachment_image(134047, "medium");
+        $second_featured_image = wp_get_attachment_image(SITE_VISUEL_ITEM, "medium");
         if( get_the_ID() == 53292){
             $second_featured_image = wp_get_attachment_image(137492, "medium");
             $number_click_to_call = "0895690365";
@@ -200,11 +157,6 @@ function handlePhoneNumber(&$link, $siteNumber)
     $link->href = 'tel:' . $siteNumber;
 }
 
-function handleBrokenLink(&$link, $unBroken)
-{
-    $link->href = $unBroken;
-}
-
 function handleHttps(&$link)
 {
     if (substr($link->href, 0, 3) === "www") {
@@ -268,44 +220,5 @@ function processImages($html)
     }
 }
 
-
-function is_potential_duplicate() {
-    global $post;
-    $slug = $post->post_name;
-    // Vérifiez si le slug contient '-contacter-la-gare-de-' ou se termine par '-2', '-3', etc.
-    return (bool) preg_match('/-contacter-la-gare-de-|-\d+$/', $slug);
-}
-
-function get_base_slug() {
-    global $post, $wpdb;
-    $slug = $post->post_name;
-    
-    // Enlevez '-contacter-la-gare-de-' et/ou '-2', '-3', etc. du slug
-    $base_slug = preg_replace(['/(-contacter-la-gare-de-)|(-\d+$)/'], '', $slug);
-    
-    // Vérifiez si un post avec ce slug existe
-    $post_id = $wpdb->get_var(
-        $wpdb->prepare(
-            "SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_status = 'publish'",
-            $base_slug
-        )
-    );
-    
-    if ($post_id) {
-        return $base_slug;
-    } else {
-        return null;
-    }
-}
-
-function add_custom_canonical() {
-    if (is_potential_duplicate()) {
-        $base_slug = get_base_slug();
-        if ($base_slug !== null) {
-            $canonical_url = home_url("/$base_slug/");
-            echo '<link rel="canonical" href="' . esc_url($canonical_url) . '" />' . "\n";
-        }
-    }
-}
 
 
