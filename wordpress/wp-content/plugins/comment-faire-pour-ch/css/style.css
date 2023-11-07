@@ -1,0 +1,35 @@
+/** @format */
+@import url('https://fonts.googleapis.com/css2?family=Lora&family=Merriweather&family=Poppins&family=Roboto+Slab&display=swap');
+body {
+  font-family: "Poppins" !important;
+}
+
+h1, p .site-title {
+  font-family: "Roboto Slab" !important;
+}
+
+h2 {
+  font-family: "Lora" !important;
+}
+
+h3 {
+  font-family: "Lora" !important;
+}
+a:hover{
+  color: #fc0021!important;
+  -webkit-box-shadow: none!important;
+  box-shadow: none!important;
+  text-decoration: none!important;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.entry-content a img,
+.comment-content a img,
+.widget a img {
+  -webkit-box-shadow: 0 0 0 0px #fff !important;
+  box-shadow: 0 0 0 0px #fff !important;
+  text-decoration: none!important;
+}
