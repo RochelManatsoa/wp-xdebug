@@ -67,3 +67,51 @@ function addCustomContent($post_id, $html)
 
     return $custom_content .= $html;
 }
+
+function nrd_latest_posts_carousel() {
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => 6,
+        'orderby' => 'date',
+        'order' => 'DESC',
+    );
+
+    $latest_posts = new WP_Query($args);
+
+    $output = '';
+
+    if ($latest_posts->have_posts()) {
+        while ($latest_posts->have_posts()) {
+            $latest_posts->the_post();
+
+            // Check for featured image
+            if (has_post_thumbnail()) {
+                $img_src = get_the_post_thumbnail_url(null, 'full');
+            } else {
+                // Get first image from the_content if no featured image
+                $content = get_the_content();
+                $doc = new DOMDocument();
+                @$doc->loadHTML($content);
+                $xpath = new DOMXPath($doc);
+                $img_src = $xpath->evaluate("string(//img/@src)"); // Get src attribute of the first image
+            }
+
+            $output .= '<div class="card mb-3" style="max-width: 540px;">';
+            $output .= '<div class="row no-gutters">';
+            $output .= '<div class="col-md-4  d-flex align-items-stretch">';
+            $output .= '<img src="' . $img_src . '" alt="' . get_the_title() . '" style="height: 100%; width: 100%; object-fit: cover;">';
+            $output .= '</div>';
+            $output .= '<div class="col-md-8">';
+            $output .= '<div class="card-body">';
+            $output .= '<h5 class="card-title">' . get_the_title() . '</h5>';
+            $output .= '<p class="card-text">' . get_the_excerpt() . '</p>';
+            $output .= '<p class="card-text"><small class="text-muted">Publié le ' . get_the_date() . '</small></p>';
+            $output .= '</div></div></div></div>';
+        }
+
+        wp_reset_postdata();
+        return $output;
+    } else {
+        return '<p>Aucun article récent trouvé.</p>';
+    }
+}
