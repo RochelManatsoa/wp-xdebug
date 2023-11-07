@@ -13,8 +13,8 @@ define('NRD_PATH', plugin_dir_path(__FILE__));
 
 define('SITE_NAME', "comment-faire-pour.ch");
 define('SITE_NUMBER', "0901113300");
-// define('SITE_VISUEL_ITEM', 48);
-define('SITE_VISUEL_ITEM', 82);
+define('SITE_VISUEL_ITEM', 48);
+// define('SITE_VISUEL_ITEM', 82);
 
 require_once(NRD_PATH . "/inc/functions.php");
 require_once(NRD_PATH . "/inc/simple_html_dom.php");
