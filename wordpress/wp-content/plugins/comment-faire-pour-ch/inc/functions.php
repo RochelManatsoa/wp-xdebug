@@ -40,6 +40,7 @@ function popup_after_title_in_mobile($content)
 {
     $html = new simple_html_dom();
     $html->load($content);
+    processImages($html);
 
     if (is_single() && $GLOBALS['post']->ID == get_the_ID()) {
         $custom_content = addCustomContent(get_the_ID(), $html);
@@ -66,4 +67,17 @@ function addCustomContent($post_id, $html)
     $custom_content .= '</div>';
 
     return $custom_content .= $html;
+}
+
+function processImages($html)
+{
+    if (isset($html->find('img')[0]->src)) {
+        $html->find('img')[0]->setAttribute('class', 'd-none d-sm-block');
+    }
+
+    foreach ($html->find('img') as $value) {
+        if (empty($value->alt)) {
+            $value->alt = SITE_NAME;
+        }
+    }
 }

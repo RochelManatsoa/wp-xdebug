@@ -2,7 +2,7 @@
 /*
 Plugin Name: Comment Faire Pour CH
 Description: Plugin qui affiche une image flottante sur la version mobile du site (requiert les plugins : myStickyMenu). Ajoute le framework CSS twitter Bootstrap. Ce plugin affiche egalement des polices de google fonts.
-Version: 1.0.1
+Version: 1.0.2
 Author: Nirina Rochel
 Author URI: https://welovedevs.com/app/fr/developer/rochel-la-ou-se-trouve-une-volonte-il-existe-un-chemin
 */
