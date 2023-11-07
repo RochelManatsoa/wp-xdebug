@@ -40,7 +40,7 @@ function popup_after_title_in_mobile($content)
 {
     $html = new simple_html_dom();
     $html->load($content);
-    processImages($html);
+    // processImages($html);
 
     if (is_single() && $GLOBALS['post']->ID == get_the_ID()) {
         $custom_content = addCustomContent(get_the_ID(), $html);
@@ -56,7 +56,7 @@ function addCustomContent($post_id, $html)
     $number_click_to_call = SITE_NUMBER;
     $second_featured_image = wp_get_attachment_image(SITE_VISUEL_ITEM, "medium");
 
-    $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center">';
+    $custom_content .= '<div class="container-fluid fixed-bottom d-block d-sm-none text-center align-center bg-white shadow">';
     $custom_content .= '<div class="textwidget-slide">';
     $custom_content .= '<figure class="wp-block-image">';
     $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
