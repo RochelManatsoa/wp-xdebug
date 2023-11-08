@@ -55,7 +55,7 @@ function addCustomContent($post_id, $html)
     $number_click_to_call = SITE_NUMBER;
     $second_featured_image = wp_get_attachment_image(SITE_VISUEL_ITEM, "medium");
 
-    $custom_content .= '<div class="container-fluid Mobile_W d-block d-sm-none text-center align-center shadow">';
+    $custom_content .= '<div class="container-fluid fixed-bottom d-block d-sm-none text-center align-center bg-white shadow">';
     $custom_content .= '<div class="textwidget-slide">';
     $custom_content .= '<figure class="wp-block-image">';
     $custom_content .= '<a href="tel:' . $number_click_to_call . '">';
