@@ -103,7 +103,7 @@ function nrd_latest_posts_carousel() {
             $output .= '</div>';
             $output .= '<div class="col-md-8">';
             $output .= '<div class="card-body">';
-            $output .= '<h5 class="card-title">' . get_the_title() . '</h5>';
+            $output .= '<h5 class="card-title"><a href = '.get_the_permalink().' >' . get_the_title() . '</h5></a>';
             $output .= '<p class="card-text">' . get_the_excerpt() . '</p>';
             $output .= '<p class="card-text"><small class="text-muted">Publié le ' . get_the_date() . '</small></p>';
             $output .= '</div></div></div></div>';
