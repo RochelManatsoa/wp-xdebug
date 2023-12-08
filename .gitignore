@@ -7,10 +7,7 @@ wordpress/*
 wordpress/wp-content/languages/*
 wordpress/wp-content/uploads/*
 wordpress/wp-content/fonts/*
-wordpress/wp-content/themes/servicer/*
-wordpress/wp-content/themes/twentytwentyone/*
-wordpress/wp-content/themes/twentytwentythree/*
-wordpress/wp-content/themes/twentytwentytwo/*
+wordpress/wp-content/themes/*
 wordpress/wp-content/plugins/suivre-mon-colis-fr/*
 wordpress/wp-content/plugins/query-monitor/*
 wordpress/wp-content/plugins/wordpress-seo/*
@@ -27,3 +24,6 @@ wp-content/*
 *.log
 *.sql
 *.sqlite
+
+# Ignore modifications in the twentyseventeen theme directory
+!wp-content/themes/twentyseventeen/

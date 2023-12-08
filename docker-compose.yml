@@ -4,9 +4,8 @@ services:
     wordpress:
         image: wordpress
         container_name: wp-servitel
-        restart: always
         ports: 
-            - 8080:80
+            - 9000:80  # Port modifié pour WordPress
         environment:
             WORDPRESS_DB_HOST: db 
             WORDPRESS_DB_USER: nirina
@@ -18,7 +17,6 @@ services:
     db: 
         image: mysql:5.7
         container_name: db-servitel
-        restart: always
         environment:
             MYSQL_DATABASE: wordpress
             MYSQL_USER: nirina
@@ -27,12 +25,14 @@ services:
         volumes:
             - ./db:/var/lib/mysql
             - ./schema:/docker-entrypoint-initdb.d
+        ports:
+            - 1036:3306  # Port modifié pour MySQL
+
     phpmyadmin:
         image: phpmyadmin
         container_name: ppa-servitel
-        restart: always
         ports:
-            - 8081:80
+            - 1081:80  # Port modifié pour phpMyAdmin
 
 volumes:
     wordpress:
