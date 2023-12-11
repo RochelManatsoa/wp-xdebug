@@ -22,8 +22,6 @@ add_action('init', 'register_script');
 add_action('wp_enqueue_scripts', 'enqueue_style');
 add_action('wp_head', 'custom_header_metadata');
 add_filter('the_content', 'popup_after_title_in_mobile');
-//add_filter('wpseo_canonical', 'yoast_remove_canonical_items', 47);
-// add_filter('wpseo_title', 'yoast_edit_title_items', 49);
 add_action('template_include', 'search_template', 99);
 
 
